@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- thinkandroidmain -->
+    <item name="test_db" type="id"/>
+    <item name="test_cache" type="id"/>
+    <item name="test_image_cache" type="id"/>
+    <item name="test_mvc" type="id"/>
+    <item name="test_http" type="id"/>
+    <item name="test_download" type="id"/>
+    <item name="test_other" type="id"/>
+    <item name="exit_app" type="id"/>
+
+    <!-- thinkandroiddb -->
+    <item name="insert_data" type="id"/>
+    <item name="delete_data" type="id"/>
+    <item name="update_data" type="id"/>
+    <item name="select_data" type="id"/>
+    <item name="show_data" type="id"/>
+    <!-- thinkandroidcache -->
+    <item name="gridView" type="id"/>
+    <!-- thinkandroidother -->
+    <item name="test_configure" type="id"/>
+    <item name="test_resoperate" type="id"/>
+    <item name="test_comparator" type="id"/>
+
+</resources>
