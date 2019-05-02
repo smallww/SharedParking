@@ -46,7 +46,7 @@ public class SplashActivity extends ThinkAndroidBaseActivity
 		setContentView(view);
 		// 渐变展示启动屏
 		AlphaAnimation aa = new AlphaAnimation(0.5f, 1.0f);
-		aa.setDuration(5000);
+		aa.setDuration(2500);
 		view.startAnimation(aa);
 		aa.setAnimationListener(new AnimationListener()
 		{

@@ -253,8 +253,8 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
 
     protected void showChoosePicDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("设置头像");
-        String[] items = {"从相册选择照片", "拍照"};
+        builder.setTitle("设置你的头像");
+        String[] items = {"从图库中选择照片", "拍照"};
         builder.setNegativeButton("取消", null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
