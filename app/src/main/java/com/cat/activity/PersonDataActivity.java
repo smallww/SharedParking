@@ -1,28 +1,29 @@
 package com.cat.activity;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.DialogPreference;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,13 +35,13 @@ import android.widget.Toast;
 
 
 import com.cat.R;
+import com.cat.fileprovider.PhotoUtils;
 import com.cat.view.BlurImageview;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.ta.TASyncHttpClient;
 import com.ta.annotation.TAInject;
 import com.ta.util.http.AsyncHttpClient;
-import com.ta.util.http.AsyncHttpResponseHandler;
 import com.ta.util.http.JsonHttpResponseHandler;
 import com.ta.util.http.RequestParams;
 import com.wx.wheelview.common.WheelData;
@@ -69,7 +70,6 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
 
     //声明自有变量
     private Toolbar title;
-    private ImageView mBlurImage;
     private ImageView personal_icon;
     private LinearLayout linearLayout;
     private LinearLayout slinerlayout;
@@ -86,10 +86,13 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     private TextView storetext;
     private TextView uptext;
     private Button exit;
-    private int mBackKeyPressedTimes = 0;
     Dialog dialog;
     //定义本地存储
     SharedPreferences preferences;
+    //文件
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/pictures/photo.jpg");
+    private File fileCropUri = new File(Environment.getExternalStorageDirectory().getPath() + "/pictures/crop_photo.jpg");
+    private Uri cropImageUri;
 
     //服务器相关
     //网络请求相关
@@ -103,6 +106,25 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        //状态栏颜色一致
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //获取样式中的属性值
+            TypedValue typedValue = new TypedValue();
+            this.getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+            int[] attribute = new int[] { android.R.attr.colorPrimary };
+            TypedArray array = this.obtainStyledAttributes(typedValue.resourceId, attribute);
+            int color = array.getColor(0, Color.TRANSPARENT);
+            array.recycle();
+
+            window.setStatusBarColor(color);
+        }
 
         setContentView(R.layout.person_data);
         initview();
@@ -110,24 +132,21 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initview() {
-        //绑定控件
-        /*title = (Toolbar) findViewById(R.id.template_toolbar);
 
-        //初始化ToolBar
-        title.setTitle(getIntent().getStringExtra("title"));
-        setSupportActionBar(title);
-        title.setNavigationIcon(R.drawable.return_btn);//设置返回icon
+
+
+
+
+
+       /* title.setNavigationIcon(R.drawable.return_btn);//设置返回icon
         title.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });*/
-    /*背景高斯模糊处理*/
-        mBlurImage = (ImageView) findViewById(R.id.blurView);
-        personal_icon = (ImageView) findViewById(R.id.person_image);
-
         /*初始化各个控件*/
+        title = (Toolbar) findViewById(R.id.toolbar2);
         asyncHttpClient = new AsyncHttpClient();
         dialog = new SpotsDialog(this);
         textView = (TextView) findViewById(R.id.username);
@@ -138,12 +157,22 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         uptext = (TextView) findViewById(R.id.uptextView);
         exit = (Button) findViewById(R.id.exitbutton);
         exit.setOnClickListener(this);
-
+        //初始化ToolBar
+        title.setTitle("");
+        setSupportActionBar(title);
+        title.setNavigationIcon(R.drawable.return_btn);//设置返回icon
+        title.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         /*从person_icon中取出bitmap图片获取权限*/
 //        //Bitmap bitmap = Bitmap.createBitmap(personal_icon.getDrawingCache());
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.weather);
 //        mBlurImage.setImageBitmap(BlurImageview.getBlurBitmap(mBlurImage.getContext(),bitmap,15));
         /*头像点击*/
+        personal_icon = (ImageView) findViewById(R.id.person_image);
         personal_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +193,8 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         /*跳转到性别编辑界面*/
         slinerlayout = (LinearLayout) findViewById(R.id.sex_linear);
         slinerlayout.setOnClickListener(this);
+
+
 
     }
 
@@ -187,7 +218,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 personal_icon.setImageBitmap(bitmap);
-                mBlurImage.setImageBitmap(BlurImageview.getBlurBitmap(PersonDataActivity.this,bitmap,15));
+
             }
 
             @Override
@@ -223,26 +254,24 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     protected void showChoosePicDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置头像");
-        String[] items = {"选择本地照片", "拍照"};
-        builder.setNegativeButton("cancel", null);
+        String[] items = {"从相册选择照片", "拍照"};
+        builder.setNegativeButton("取消", null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick (DialogInterface dialog,int which){
                 switch (which) {
-                    case CHOOSE_PICTURE: // 选择本地照片
+                    case CHOOSE_PICTURE: // 从相册选择照片
                         Intent openAlbumIntent = new Intent(
                                 Intent.ACTION_GET_CONTENT);
                         openAlbumIntent.setType("image/*");
                         startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
                         break;
                     case TAKE_PICTURE: // 拍照
-                        Intent openCameraIntent = new Intent(
-                                MediaStore.ACTION_IMAGE_CAPTURE);
-                        tempUri = Uri.fromFile(new File(Environment
-                                .getExternalStorageDirectory(), "image.jpg"));
-                        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+                        tempUri = Uri.fromFile(fileUri);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            //通过FileProvider创建一个content类型的Uri
+                            tempUri = FileProvider.getUriForFile(PersonDataActivity.this, "com.cat.fileprovider", fileUri);
+                        PhotoUtils.takePicture(PersonDataActivity.this, tempUri, TAKE_PICTURE);
                         break;
                 }
             }
@@ -250,35 +279,36 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         builder.create().show();
     }
 
-   //对图像进行裁剪处理
+    //对图像进行裁剪处理
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        int output_X = 480, output_Y = 480;
         if (resultCode == RESULT_OK) { // 如果返回码是可以用的
             switch (requestCode) {
-                case TAKE_PICTURE:
-                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                case TAKE_PICTURE://拍照完成回调
+                    cropImageUri = Uri.fromFile(fileCropUri);
+                    PhotoUtils.cropImageUri(this, tempUri, cropImageUri, 1, 1, output_X, output_Y, CROP_SMALL_PICTURE);
                     break;
-                case CHOOSE_PICTURE:
-                    startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
+                case CHOOSE_PICTURE://访问相册完成回调
+                    cropImageUri = Uri.fromFile(fileCropUri);
+                    Uri newUri = Uri.parse(PhotoUtils.getPath(this, data.getData()));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        newUri = FileProvider.getUriForFile(this, "com.cat.fileprovider", new File(newUri.getPath()));
+                    PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, output_X, output_Y, CROP_SMALL_PICTURE);
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
                         dialog.show();
-                        Bitmap headpic = data.getExtras().getParcelable("data");
-                        File dirFile = new File("/mnt/sdcard/image");
-                        if(!dirFile.exists()){
-                            dirFile.mkdir();
-                        }
-                        File file = new File("/mnt/sdcard/image","upload.jpg");
+                        Bitmap headpic = PhotoUtils.getBitmapFromUri(cropImageUri, this);
                         try {
-                            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+                            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileCropUri));
                             headpic.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                             bos.flush();
                             bos.close();
 
                             RequestParams rp = new RequestParams();
                             rp.put("userid",preferences.getString("userid",""));
-                            rp.put("headpic",file);
+                            rp.put("headpic",fileCropUri);
                             asyncHttpClient.post(BASEURL+"user/updateheadpic",rp,new JsonHttpResponseHandler(){
                                 @Override
                                 public void onSuccess(JSONObject response) {
@@ -326,34 +356,13 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-//    设置裁剪
-    protected void startPhotoZoom(Uri uri) {
-        if (uri == null) {
-            Log.i("tag", "The uri is not exist.");
-        }
-        tempUri = uri;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, CROP_SMALL_PICTURE);
-    }
 
-
-//    显示图片以及设置背景
+    //    显示图片以及设置背景
     protected void setImageToView(Intent data) {
         Bundle extras = data.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             personal_icon.setImageBitmap(photo);
-            mBlurImage.setImageBitmap(BlurImageview.getBlurBitmap(mBlurImage.getContext(),photo,15));
         }
     }
 
@@ -443,6 +452,5 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
-
 
 }

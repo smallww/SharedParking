@@ -206,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,PersonDataActivity.class);
-                intent.putExtra("title","个人资料");
                 startActivity(intent);
             }
         });
@@ -588,7 +587,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             if(currentPositionGEO == null){
-                Toast.makeText(this, "定位后才能帮你找到合适的书呀~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "定位后才能帮你车位啊~", Toast.LENGTH_SHORT).show();
                 mLocationClient.requestLocation();
                 return true;
             }
