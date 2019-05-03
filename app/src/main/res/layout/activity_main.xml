@@ -17,122 +17,71 @@
             android:id="@+id/toolbar"
             layout="@layout/tool_bar"
         />
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:gravity="center"
             android:orientation="vertical">
-            <com.baidu.mapapi.map.MapView
-                android:id="@+id/bmapView"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clickable="true" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical">
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/getMyLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onClick"
-                    android:src="@drawable/btn_getlocation"
-                    app:backgroundTint="@android:color/background_light"
-                    app:borderWidth="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:text="定位" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="false"
-                android:layout_alignParentRight="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentTop="false"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="40dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical"
-                android:weightSum="1">
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/useBike"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onClick"
-                    android:src="@drawable/btn_usebike"
-                    app:backgroundTint="@android:color/background_dark"
-                    app:borderWidth="0dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical">
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/ReportMsg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onClick"
-                    android:src="@drawable/btn_postmsg"
-                    app:backgroundTint="@android:color/background_light"
-                    app:borderWidth="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:text="举报"
-                    android:textSize="14sp" />
-            </LinearLayout>
-            <com.arlib.floatingsearchview.FloatingSearchView
-                android:id="@+id/floating_search_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:floatingSearch_close_search_on_keyboard_dismiss="false"
-                app:floatingSearch_dimBackground="false"
-                app:floatingSearch_dismissOnOutsideTouch="true"
-                app:floatingSearch_leftActionMode="showHamburger"
-                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
-                app:floatingSearch_searchHint="我想找这本书"
-                app:floatingSearch_showSearchKey="true"
-                app:floatingSearch_suggestionsListAnimDuration="250"/>
-        </RelativeLayout>
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+                <LinearLayout
+                    android:id="@+id/park"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.45"
+                    android:background="@color/color_cccccc"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:src="@drawable/park" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="我要停车"
+                        android:textColor="#2C2C2C"
+                        android:textSize="25dp" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_weight="0.1"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_ffffff"
+                    />
+                <LinearLayout
+                    android:id="@+id/share"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.45"
+                    android:background="@color/color_cccccc"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/share" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="共享车位"
+                        android:textColor="#2C2C2C"
+                        android:textSize="25dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
 
+        </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

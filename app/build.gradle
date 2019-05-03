@@ -67,8 +67,8 @@ dependencies {
     implementation files('libs/thinkandroid-1.1-bin.jar')
     implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/IndoorscapeAlbumPlugin.jar')
-    implementation  project(path: ':library')
-    implementation  project(':wheelview')
+    implementation project(path: ':library')
+    implementation project(':wheelview')
 
     //PushSDK必须依赖基础组件库，所以需要加入对应依赖
     implementation 'com.umeng.umsdk:common:1.5.4'

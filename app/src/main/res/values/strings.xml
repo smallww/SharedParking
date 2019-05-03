@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, TestAndroidActivity!</string>
-    <string name="app_name">BookStore</string>
+    <string name="app_name">共享车位</string>
     <string name="app_describe">非常感谢您们的支持！我们共同学习！                     网址：http://www.thinkandroid.cn。qq群：169415162</string>
     <!-- activity标题 -->
     <string name="thinkandroid_main_title">ThinkAndroid Main</string>
@@ -78,4 +78,5 @@
 
     <!--特殊符号Unicode-->
     <string name="right_arrow">\u2192</string>
+    <string name="title_activity_main_home">Main_homeActivity</string>
 </resources>

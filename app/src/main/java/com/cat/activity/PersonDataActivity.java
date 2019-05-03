@@ -236,7 +236,8 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         Picasso.with(PersonDataActivity.this).load(headpic).placeholder(R.drawable.default_image).into(target);
 
         String phone = preferences.getString("phone","");
-        phonetext.setText(phone);
+        String Num=phone.substring(0,3)+"****"+phone.substring(7,phone.length());
+        phonetext.setText(Num);
 
         String store = preferences.getString("score","");
         storetext.setText(store);
