@@ -1,10 +1,12 @@
 package com.cat.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.media.Image;
@@ -13,10 +15,13 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +43,7 @@ import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -70,6 +76,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import dmax.dialog.SpotsDialog;
 import io.github.xudaojie.qrcodelib.CaptureActivity;
@@ -80,17 +87,11 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
         {
     //变量声明
     private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
     private FloatingActionButton btn_useBike;
     private FloatingActionButton btn_getLocation;
     private FloatingActionButton btn_postMsg;
     private ArrayList<LatLng> myBike;
-    private int mBackKeyPressedTimes;
     private FloatingSearchView mSearchView;
-    private ImageView headpic;
-    private TextView username;
-    private TextView phone;
     SharedPreferences preferences;
     private boolean isopen=false;
 
@@ -102,6 +103,9 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     BitmapDescriptor mCurrentMarker;
     LocationManager locationManager;
     private String currentPositionGEO;
+    private LatLng latLng;
+    private boolean isFirstLoc = true; // 是否首次定位
+
 
     //扫码变量声明
     private int REQUEST_QR_CODE = 0;
@@ -121,8 +125,29 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_home);
+//监听授权
+                List<String> permissionList=new ArrayList<>();
+                if (ContextCompat.checkSelfPermission(Main_homeActivity.this, Manifest.
+                        permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+                    permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+                }
+                if (ContextCompat.checkSelfPermission(Main_homeActivity.this, Manifest.
+                        permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED){
+                    permissionList.add(Manifest.permission.READ_PHONE_STATE);
+                }
+                if (ContextCompat.checkSelfPermission(Main_homeActivity.this, Manifest.
+                        permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
+                if (!permissionList.isEmpty()){
+                    String[] permissions=permissionList.toArray(new String[permissionList.size()]);
+                    ActivityCompat.requestPermissions(Main_homeActivity.this,permissions,1);
+                }else {
+                    initView();
+                    // requestLocation();
+                }
 
-        initView();
+        //initView();
         checkDeviceToken();
         initGps(false);
 
@@ -206,55 +231,51 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
+        //option.setScanSpan(2000);
         mLocationClient.setLocOption(option);
         mMapView.setLogoPosition(LogoPosition.logoPostionleftBottom);
         //实例化UiSettings类对象
         mUiSettings = mBaiduMap.getUiSettings();
        //通过设置enable为true或false 选择是否显示指南针
         mUiSettings.setCompassEnabled(false);
+        //直接缩放至缩放级别16
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(16));
         mLocationClient.registerLocationListener(myListener);
         mLocationClient.start();
         initData();
 
         //设置地图 Marker监听
         mBaiduMap.setOnMarkerClickListener(this);
+      //  mLocationClient.requestLocation();
 
-        BaiduMap.OnMyLocationClickListener listener = new BaiduMap.OnMyLocationClickListener() {
-            /**
-             * 地图定位图标点击事件监听函数
-             */
-            @Override
-            public boolean onMyLocationClick() {
-                return false;
-            }
-        };
-        //设置定位图标点击事件监听
-        mBaiduMap.setOnMyLocationClickListener(listener);
 
-        BaiduMap.OnMapClickListener clickListener = new BaiduMap.OnMapClickListener() {
-            /**
-             * 地图单击事件回调函数
-             *
-             * @param point 点击的地理坐标
-             */
-            @Override
-            public void onMapClick(LatLng point) {
-
-            }
-
-            /**
-             * 地图内 Poi 单击事件回调函数
-             *
-             * @param mapPoi 点击的 poi 信息
-             */
-            @Override
-            public boolean onMapPoiClick(MapPoi mapPoi) {
-                return false;
-            }
-        };
-        //设置地图单击事件监听
-        mBaiduMap.setOnMapClickListener(clickListener);
+//        BaiduMap.OnMapClickListener clickListener = new BaiduMap.OnMapClickListener() {
+//            /**
+//             * 地图单击事件回调函数
+//             *
+//             * @param point 点击的地理坐标
+//             */
+//            @Override
+//            public void onMapClick(LatLng point) {
+//                double myLatitude = point.latitude;
+//                double myLongitude = point.longitude;
+//                Log.i("112", myLatitude + "   " + myLongitude);
+//            }
+//
+//            /**
+//             * 地图内 Poi 单击事件回调函数
+//             *
+//             * @param mapPoi 点击的 poi 信息
+//             */
+//            @Override
+//            public boolean onMapPoiClick(MapPoi mapPoi) {
+//
+//
+//                return false;
+//            }
+//        };
+//        //设置地图单击事件监听
+//        mBaiduMap.setOnMapClickListener(clickListener);
     }
 
 
@@ -330,7 +351,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }
 
@@ -353,6 +374,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
         super.onResume();
         mMapView.onResume();
         initData();
+       // isFirstLoc=false;
         isopen = false;
     }
     @Override
@@ -429,7 +451,9 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
             case R.id.ReportMsg:
                 break;
             case R.id.getMyLocation:
-                mLocationClient.requestLocation();
+                MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng);
+                mBaiduMap.animateMapStatus(mapStatusUpdate);
+               //mLocationClient.requestLocation();
                 break;
         }
     }
@@ -474,7 +498,6 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
      * 定位SDK监听函数
      */
     public class MyLocationListenner extends BDAbstractLocationListener {
-
         @Override
         public void onReceiveLocation(BDLocation location) {
             // map view 销毁后不在处理新接收的位置
@@ -487,17 +510,44 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
                     .direction(100).latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
-            LatLng ll = new LatLng(location.getLatitude(),
-                    location.getLongitude());
-            MapStatus.Builder builder = new MapStatus.Builder();
-            builder.target(ll).zoom(18.0f);
-            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-            GeoHash g = new GeoHash(ll.latitude,ll.longitude);
-            Gson gson = new Gson();
-            currentPositionGEO = gson.toJson(g.getGeoHashBase32For9());
+
+            if(isFirstLoc) {
+                isFirstLoc=false;
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng ll = new LatLng(location.getLatitude(),
+                        location.getLongitude());
+                Log.i("112", "经纬度LatLng:" + ll);
+                Log.i("112", "经纬度LatLng:" + latLng);
+                MapStatus.Builder builder = new MapStatus.Builder();
+                builder.target(ll).zoom(18.0f);
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+                GeoHash g = new GeoHash(ll.latitude,ll.longitude);
+                Gson gson = new Gson();
+                currentPositionGEO = gson.toJson(g.getGeoHashBase32For9());
+                if (location.getLocType() == BDLocation.TypeGpsLocation) {
+                    // GPS定位结果
+                    Toast.makeText(Main_homeActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
+                    // 网络定位结果
+                    Toast.makeText(Main_homeActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+
+                } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
+                    // 离线定位结果
+                    Toast.makeText(Main_homeActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+
+                } else if (location.getLocType() == BDLocation.TypeServerError) {
+                    Toast.makeText(Main_homeActivity.this, "服务器错误，请检查", Toast.LENGTH_SHORT).show();
+                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+                    Toast.makeText(Main_homeActivity.this, "网络错误，请检查", Toast.LENGTH_SHORT).show();
+                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                    Toast.makeText(Main_homeActivity.this, "手机模式错误，请检查是否飞行", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         }
 
     }
+
 
     /**
      * 把json 字符串转化成list
@@ -515,16 +565,16 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
         }
         return list ;
     }
-            private void initSearch() {
-                mSearchView.setAlpha(0.7f);
-                mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-                    @Override
-                    public void onSearchTextChanged(String oldQuery, final String newQuery) {
-                        if(oldQuery.equals("")) mSearchView.setAlpha(1.0f);
-                        else if (newQuery.equals("")) mSearchView.setAlpha(0.7f);
-                    }
-                });
+    private void initSearch() {
+        mSearchView.setAlpha(0.7f);
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+                if(oldQuery.equals("")) mSearchView.setAlpha(1.0f);
+                else if (newQuery.equals("")) mSearchView.setAlpha(0.7f);
             }
+        });
+    }
     /**
      * 监听搜索按钮
      * @param event

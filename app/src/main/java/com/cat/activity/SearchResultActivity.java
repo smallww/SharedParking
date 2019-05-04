@@ -165,7 +165,10 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
         title.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+
+//                Intent intent = new Intent(SearchResultActivity.this,Main_homeActivity.class);
+//                startActivity(intent);
+                  finish();
             }
         });
 

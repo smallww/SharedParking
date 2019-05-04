@@ -34,7 +34,7 @@
                 android:focusable="true"
                 android:onClick="onClick"
                 android:src="@drawable/add"
-                app:backgroundTint="@android:color/holo_blue_dark"
+                app:backgroundTint="@color/PrimaryColor"
                 app:borderWidth="0dp" />
 
             <com.cat.layout.VerticalSwipeRefreshLayout

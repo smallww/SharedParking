@@ -48,7 +48,12 @@
         </provider> <!-- 参数配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="AqZQZLEiWzeeDpDbSzbR7BVUcs7lRPdD" /> <!-- activity配置 -->
+            android:value="AqZQZLEiWzeeDpDbSzbR7BVUcs7lRPdD" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <!-- activity配置 -->
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
@@ -62,18 +67,14 @@
         <activity android:name=".activity.PersonDataActivity" />
         <activity android:name=".activity.EditNameActivity" />
         <activity android:name="io.github.xudaojie.qrcodelib.CaptureActivity" />
-        <activity android:name=".activity.TemplateActivity" /> <!-- service配置 -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" /> <!-- 接收器配置 -->
+        <activity android:name=".activity.TemplateActivity" />
         <receiver android:name="com.ta.util.netstate.TANetworkStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="ta.android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
+        <!-- 接收器配置 -->
         <activity
             android:name=".activity.BookShelfActivity"
             android:label="@string/title_activity_book_shelf"
