@@ -71,7 +71,7 @@
 
                 <Button
                     android:id="@+id/btn_info"
-                    android:layout_width="40dp"
+                    android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/title3"

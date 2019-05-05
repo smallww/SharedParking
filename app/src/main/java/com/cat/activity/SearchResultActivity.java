@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -118,7 +119,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
                         for (SearchBookJson i : books) {
                             /*标记Marker*/
                             //准备 marker 的图片
-                            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.bike_marker);
+                            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.poi_marker);
                             //准备 marker option 添加 marker 使用
                             MarkerOptions markerOptions = new MarkerOptions().icon(bitmap).position(new LatLng(i.getLat(), i.getLon()));
                             //获取添加的 marker 这样便于后续的操作
@@ -201,7 +202,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
                 HashMap<String, Object> info = list_data.get(i);
                 /*标记Marker*/
                 //准备 marker 的图片
-                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.bike_marker);
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.poi_marker);
                 //准备 marker option 添加 marker 使用
                 MarkerOptions markerOptions = new MarkerOptions().icon(bitmap).position(new LatLng((Double)info.get("lat"),(Double)info.get("lon")));
                 //获取添加的 marker 这样便于后续的操作
@@ -263,8 +264,11 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
      * @return
      */
     @Override
+
     public boolean onMarkerClick(Marker marker) {
+        Log.i("112","fgfdgdf5451");
         View view = LayoutInflater.from(this).inflate(R.layout.infowindow, null);
+        View view1 = LayoutInflater.from(this).inflate(R.layout.searchinfowindow, null);
         Button b = (Button) view.findViewById(R.id.btn_info);
 
         final Bundle bundle = marker.getExtraInfo();
@@ -272,6 +276,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("112","fgfdgdf");
                 Intent intent = new Intent(SearchResultActivity.this,ShowBookShelfActivity.class);
                 intent.putExtra("storeid",bundle.getString("storeid"));
                 startActivity(intent);
@@ -279,14 +284,16 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
         });
 
         ((TextView)view.findViewById(R.id.title1)).setText("用户名：");
-        ((TextView)view.findViewById(R.id.title3)).setText("联系方式：");
-        ((LinearLayout)view.findViewById(R.id.option)).setVisibility(View.GONE);
-        ImageView headpic = (ImageView) view.findViewById(R.id.headview);
-
-        Picasso.with(getContext()).load(bundle.getString("img")).placeholder(R.drawable.default_image).into(headpic);//set headpic
+        ((TextView)view.findViewById(R.id.title2)).setText("联系方式：");
+        //  ((LinearLayout)view.findViewById(R.id.option)).setVisibility(View.GONE);
+        ((TextView)view.findViewById(R.id.title3)).setVisibility(View.GONE);
+        ((TextView)view.findViewById(R.id.store_describe)).setVisibility(View.GONE);
+        ImageView headpic = (ImageView) view1.findViewById(R.id.headview);
+        // Picasso.with(this).load(bundle.getString("img")).placeholder(R.drawable.default_image).into(headpic);
+         Picasso.with(getContext()).load(bundle.getString("img")).placeholder(R.drawable.default_image).into(headpic);//set headpic
         ((TextView)view.findViewById(R.id.store_id)).setText(bundle.getString("username","无数据"));
         ((TextView)view.findViewById(R.id.store_name)).setText(bundle.getString("phone","无数据"));
-        ((TextView)view.findViewById(R.id.store_describe)).setText(bundle.getString("img","无数据"));
+       // ((TextView)view.findViewById(R.id.store_describe)).setText(bundle.getString("img","无数据"));
         // 定义用于显示该InfoWindow的坐标点
         // 创建InfoWindow的点击事件监听者
         view.setOnClickListener(new View.OnClickListener() {
@@ -295,7 +302,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
                 mBaiduMap.hideInfoWindow();
             }
         });
-        InfoWindow mInfoWindow = new InfoWindow(view,marker.getPosition(),-170);
+        InfoWindow mInfoWindow = new InfoWindow(view,marker.getPosition(),-120);
         mBaiduMap.showInfoWindow(mInfoWindow); //显示气泡
         return true;
     }

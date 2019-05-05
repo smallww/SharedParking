@@ -17,7 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#008577"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+            app:theme="@style/Theme.Toolbar.Base"
+            app:popupTheme="@style/Theme.Toolbar.Base"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,8 +57,9 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="onClick"
-                    android:src="@drawable/btn_getlocation"
-                    app:backgroundTint="#008577"
+                    app:fabSize="mini"
+                    android:src="@drawable/location"
+                    app:backgroundTint="#ffffff"
                     app:borderWidth="0dp" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -64,6 +67,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:text="定位"
+                    android:textColor="#008577"
                    />
             </LinearLayout>
 
@@ -89,9 +93,10 @@
                     android:layout_height="100dp"
                     android:clickable="true"
                     android:focusable="true"
+                    app:rippleColor="#9C27B0"
                     android:onClick="onClick"
-                    android:src="@drawable/btn_usebike"
-                    app:backgroundTint="@android:color/background_dark"
+                    android:src="@drawable/opensuo"
+                    android:background="#008577"
                     app:borderWidth="0dp" />
 
             </LinearLayout>
@@ -114,9 +119,10 @@
                     android:layout_margin="@dimen/fab_margin"
                     android:clickable="true"
                     android:focusable="true"
+                    app:fabSize="mini"
                     android:onClick="onClick"
                     android:src="@drawable/btn_postmsg"
-                    app:backgroundTint="#008577"
+                    app:backgroundTint="#ffffff"
                     app:borderWidth="0dp" />
 
                 <TextView
@@ -125,6 +131,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:text="举报"
+                    android:textColor="#008577"
                     android:textSize="14sp" />
             </LinearLayout>
             <com.arlib.floatingsearchview.FloatingSearchView

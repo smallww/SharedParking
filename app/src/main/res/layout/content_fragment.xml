@@ -63,7 +63,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="onClick"
-                    android:src="@drawable/btn_usebike"
+                    android:src="@drawable/sweep"
                     app:backgroundTint="@android:color/background_dark"
                     app:borderWidth="0dp" />
 

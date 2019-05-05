@@ -8,7 +8,7 @@
             android:id="@+id/update"
             android:icon="@drawable/btn_getlocation"
             android:title="将书架定位置当前位置"
-            app:showAsAction="always"/>
+            app:showAsAction="never"/>
 
 
     </group>

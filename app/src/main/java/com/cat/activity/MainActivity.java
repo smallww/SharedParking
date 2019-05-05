@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
+
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.baidu.mapapi.model.LatLng;
 import com.cat.R;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView phone;
     private static MainActivity mainActivity;
     SharedPreferences preferences;
-
+    private ViewFlipper flipper;
 
 
     //控件声明
@@ -159,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainActivity = this;
         setSupportActionBar(toolbar);
 
+
+        flipper = (ViewFlipper) findViewById(R.id.flipper);
+        flipper.startFlipping();//开始切换，注意，如果设置了时间间隔，想让它自动切换，一定要记得加它
         headpic.setOnClickListener(new View.OnClickListener() {
 
             @Override

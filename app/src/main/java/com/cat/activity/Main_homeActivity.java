@@ -87,7 +87,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
         {
     //变量声明
     private Toolbar toolbar;
-    private FloatingActionButton btn_useBike;
+    private FloatingActionButton sweep;
     private FloatingActionButton btn_getLocation;
     private FloatingActionButton btn_postMsg;
     private ArrayList<LatLng> myBike;
@@ -125,7 +125,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_home);
-//监听授权
+                //监听授权
                 List<String> permissionList=new ArrayList<>();
                 if (ContextCompat.checkSelfPermission(Main_homeActivity.this, Manifest.
                         permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
@@ -191,10 +191,10 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
         asyncHttpClient = new AsyncHttpClient();
         mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
         dialog = new SpotsDialog(Main_homeActivity.this);
-        btn_useBike = (FloatingActionButton) findViewById(R.id.useBike);
+        sweep = (FloatingActionButton) findViewById(R.id.useBike);
         btn_getLocation = (FloatingActionButton) findViewById(R.id.getMyLocation);
         btn_postMsg = (FloatingActionButton) findViewById(R.id.ReportMsg);
-        btn_useBike.setOnClickListener(this);
+        sweep.setOnClickListener(this);
         btn_getLocation.setOnClickListener(this);
         btn_postMsg.setOnClickListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar_home);
@@ -290,7 +290,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
                 try {
                     String s = response.getString("obj");
                     //准备 marker 的图片
-                    BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.bike_marker);
+                    BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.poi_marker);
                     List<Bookstore> bikeInfos = stringToList(response.getString("obj"),Bookstore.class);
 
                     mBaiduMap.clear();

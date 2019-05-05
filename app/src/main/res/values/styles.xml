@@ -8,9 +8,14 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+
         <!-- Customize your theme here. -->
     </style>
 
+
+    <style name="Theme.Toolbar.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:actionMenuTextColor">@color/color_ffffff</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
