@@ -240,6 +240,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent6.putExtra("title","关于我们");
                 startActivity(intent6);
                 return true;
+            case R.id.nav_setting:
+                Intent intent7 = new Intent(MainActivity.this,TemplateActivity.class);
+                intent7.putExtra("title","关于我们");
+                startActivity(intent7);
+                return true;
+            case R.id.nav_kfu:
+                Intent intent8 = new Intent(MainActivity.this,TemplateActivity.class);
+                intent8.putExtra("title","关于我们");
+                startActivity(intent8);
+                return true;
             default:
                 return true;
 
@@ -325,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.share:
-                Intent intent1 = new Intent(MainActivity.this,PersonDataActivity.class);
+                Intent intent1 = new Intent(MainActivity.this,SearchParkActivity.class);
                 startActivity(intent1);
                 break;
 

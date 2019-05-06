@@ -8,7 +8,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-
+        <item name="android:windowTranslucentStatus">true</item>
         <!-- Customize your theme here. -->
     </style>
 

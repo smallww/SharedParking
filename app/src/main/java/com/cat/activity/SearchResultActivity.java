@@ -135,7 +135,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
 
                         //建立list
                         getData(books);
-                        SearchBookAdapter adapter = new SearchBookAdapter(SearchResultActivity.this,list_data);
+                        SearchBookAdapter adapter = new SearchBookAdapter( SearchResultActivity.this,list_data);
                         searchlist.setAdapter(adapter);
                         dialog.dismiss();
                     }
@@ -266,7 +266,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
     @Override
 
     public boolean onMarkerClick(Marker marker) {
-        Log.i("112","fgfdgdf5451");
+       // Log.i("112","fgfdgdf5451");
         View view = LayoutInflater.from(this).inflate(R.layout.infowindow, null);
         View view1 = LayoutInflater.from(this).inflate(R.layout.searchinfowindow, null);
         Button b = (Button) view.findViewById(R.id.btn_info);
@@ -276,7 +276,7 @@ public class SearchResultActivity extends AppCompatActivity implements BaiduMap.
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("112","fgfdgdf");
+               // Log.i("112","fgfdgdf");
                 Intent intent = new Intent(SearchResultActivity.this,ShowBookShelfActivity.class);
                 intent.putExtra("storeid",bundle.getString("storeid"));
                 startActivity(intent);
