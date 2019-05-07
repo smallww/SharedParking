@@ -134,10 +134,12 @@ public class SearchParkActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-
+                Intent intent7 = new Intent(SearchParkActivity.this,HomeActivity.class);
+                intent7.putExtra("title","高德地图");
+                startActivity(intent7);
                 Log.i("111","23");
                 //清除焦点，收软键盘
-                search_park.clearFocus();
+               // search_park.clearFocus();
                 return false;
 
             }

@@ -241,8 +241,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent6);
                 return true;
             case R.id.nav_setting:
-                Intent intent7 = new Intent(MainActivity.this,TemplateActivity.class);
-                intent7.putExtra("title","关于我们");
+                Intent intent7 = new Intent(MainActivity.this,HomeActivity.class);
+                intent7.putExtra("title","高德地图");
                 startActivity(intent7);
                 return true;
             case R.id.nav_kfu:
