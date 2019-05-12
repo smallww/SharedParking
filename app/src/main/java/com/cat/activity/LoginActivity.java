@@ -68,7 +68,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    //final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     //存储相关
     SharedPreferences preferences;
@@ -313,10 +314,11 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                     editor.putString("username", user.getUserName() + "");
                                     editor.putString("gender", user.getGender() + "");
                                     editor.putString("phone", user.getPhone() + "");
-                                    editor.putString("score", user.getScore() + "");
+                              //      editor.putString("score", user.getScore() + "");
+                                    editor.putString("balance", user.getScore() + "");
                                     editor.putString("password", user.getPassword() + "");
                                     editor.putString("headpic", user.getHeadPic() + "");
-                                    editor.commit();
+                                    editor.apply();
                                     dialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

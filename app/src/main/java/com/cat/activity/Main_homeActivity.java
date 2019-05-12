@@ -17,9 +17,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -120,6 +123,9 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     private AsyncHttpClient asyncHttpClient;
     final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
     private UiSettings mUiSettings;
+
+    private SearchView searchView;
+    private SearchView.SearchAutoComplete mSearchAutoComplete;
 
             @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,6 +282,8 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
 //        };
 //        //设置地图单击事件监听
 //        mBaiduMap.setOnMapClickListener(clickListener);
+
+
     }
 
 
@@ -352,7 +360,27 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        //通过MenuItem得到SearchView
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchAutoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+        //搜索图标是否显示在搜索框内
+        searchView.setIconifiedByDefault(false);
+        //设置搜索框展开时是否显示提交按钮，可不显示
+        searchView.setSubmitButtonEnabled(false);
+        //让键盘的回车键设置成搜索
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        //搜索框是否展开，false表示展开
+        searchView.setIconified(true);
+
+        searchView.setQueryHint("请输入目的地/地标");
+
+        //设置输入框提示文字样式
+        mSearchAutoComplete.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
+        mSearchAutoComplete.setTextColor(getResources().getColor(android.R.color.background_light));
+        mSearchAutoComplete.setTextSize(14);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

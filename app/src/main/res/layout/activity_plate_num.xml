@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/color_ffffff"
+    tools:context=".activity.PlateNumActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_car"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#008577"
+        app:theme="@style/Theme.Toolbar.Base"
+        app:popupTheme="@style/Theme.Toolbar.Base" />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="12dp"
+    android:textSize="16sp"
+    android:textColor="#000"
+    android:text="请输入正确的车牌号"
+    android:layout_height="wrap_content"></TextView>
+<LinearLayout
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:orientation="horizontal"
+    android:background="@drawable/layout_border"
+    android:layout_width="match_parent"
+    android:layout_height="55dp">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:gravity="center"
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        />
+    <Spinner
+        android:id="@+id/spinner1"
+        android:gravity="center"
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        />
+
+    <com.jungly.gridpasswordview.GridPasswordView
+        android:id="@+id/plate_gpv1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:gpvGridColor="#ffffff"
+        app:gpvLineColor="#2196F3"
+        app:gpvLineWidth="1dp"
+        app:gpvPasswordLength="8"
+        app:gpvPasswordType="textPassword"
+        app:gpvTextColor="#2196F3"
+        app:gpvTextSize="25sp" />
+
+    <com.jungly.gridpasswordview.GridPasswordView
+        android:id="@+id/plate_gpv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:gpvGridColor="#ffffff"
+        app:gpvLineColor="#2196F3"
+        app:gpvLineWidth="1dp"
+        app:gpvPasswordLength="5"
+        app:gpvPasswordType="textPassword"
+        app:gpvTextColor="#2196F3"
+        app:gpvTextSize="25sp" />
+
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+    <TextView
+        android:textSize="16sp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="8dp"
+        android:text="若是新能源汽车，请点击-->"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
+    <CheckBox
+        android:text="新能源车牌"
+        android:textColor="#2196F3"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cb_new"
+        />
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="20sp"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_content"
+        />
+    <Button
+        android:id="@+id/bth_submit"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/PrimaryColor"
+        android:text="确认"
+        android:textSize="22sp"
+        android:textColor="@color/color_ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+</LinearLayout>

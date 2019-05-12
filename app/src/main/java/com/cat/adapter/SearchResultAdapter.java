@@ -1,6 +1,8 @@
 package com.cat.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +12,12 @@ import android.widget.TextView;
 
 import com.amap.api.services.core.PoiItem;
 import com.cat.R;
+import com.cat.activity.AddParkingActivity;
+import com.cat.activity.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 包名： com.amap.searchdemo
- * <p>
- * 创建时间：2016/10/19
- * 项目名称：SearchDemo
- *
- * @author guibao.ggb
- * @email guibao.ggb@alibaba-inc.com
- * <p>
- * 类说明：
- */
 public class SearchResultAdapter extends BaseAdapter {
 
     private List<PoiItem> data;
@@ -81,6 +74,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
         viewHolder.bindView(position);
 
+
         return convertView;
     }
 
@@ -89,13 +83,16 @@ public class SearchResultAdapter extends BaseAdapter {
         TextView textTitle;
         TextView textSubTitle;
         ImageView imageCheck;
+        View item;
 
         public ViewHolder(View view) {
             textTitle = (TextView) view.findViewById(R.id.text_title);
             textSubTitle = (TextView) view.findViewById(R.id.text_title_sub);
             imageCheck = (ImageView) view.findViewById(R.id.image_check);
+            item = view;
         }
 
+        @SuppressLint("SetTextI18n")
         public void bindView(int position) {
             if (position >= data.size())
                 return;
@@ -107,6 +104,16 @@ public class SearchResultAdapter extends BaseAdapter {
 
             imageCheck.setVisibility(position == selectedPosition ? View.VISIBLE : View.INVISIBLE);
             textSubTitle.setVisibility((position == 0 && poiItem.getPoiId().equals("regeo")) ? View.GONE : View.VISIBLE);
+
+
+            item.setOnClickListener(v -> {
+
+                    Intent intent=new Intent(context, AddParkingActivity.class);
+                    intent.putExtra("address",textSubTitle.getText());
+                    intent.putExtra("latitude",String.valueOf(poiItem.getLatLonPoint().getLatitude()));
+                    intent.putExtra("longitude",String.valueOf(poiItem.getLatLonPoint().getLongitude()));
+                    context.startActivity(intent);
+
+            });
         }
-    }
-}
+    }}

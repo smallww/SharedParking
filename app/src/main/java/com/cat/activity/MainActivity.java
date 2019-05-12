@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.inbox:
                 //个人资料
                 Intent intent = new Intent(MainActivity.this,PersonDataActivity.class);
-                intent.putExtra("title","个人资料");
+                intent.putExtra("title","我的钱包");
                 startActivity(intent);
                 return true;
             case R.id.starred:
@@ -241,14 +241,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent6);
                 return true;
             case R.id.nav_setting:
-                Intent intent7 = new Intent(MainActivity.this,HomeActivity.class);
-                intent7.putExtra("title","高德地图");
+                Intent intent7 = new Intent(MainActivity.this,SharedActivity.class);
                 startActivity(intent7);
                 return true;
             case R.id.nav_kfu:
-                Intent intent8 = new Intent(MainActivity.this,TemplateActivity.class);
-                intent8.putExtra("title","关于我们");
+                Intent intent8 = new Intent(MainActivity.this,AddParkingActivity.class);
                 startActivity(intent8);
+                return true;
+            case R.id.nav_wallet:
+                Intent intent9 = new Intent(MainActivity.this,WalletActivity.class);
+                startActivity(intent9);
+                return true;
+            case R.id.nav_car:
+                Intent intent10 = new Intent(MainActivity.this,PlateNumActivity.class);
+                startActivity(intent10);
                 return true;
             default:
                 return true;

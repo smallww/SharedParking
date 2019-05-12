@@ -46,11 +46,24 @@
                 android:id="@+id/nav_setting"
                 android:checked="false"
                 android:icon="@drawable/ic_build_black_24dp"
-                android:title="   设置 " />
+                android:title="设置 " />
          <item
                 android:id="@+id/nav_kfu"
                 android:checked="false"
                 android:icon="@drawable/ic_child_care_"
-                android:title="   客服 " />
+                android:title="客服 " />
+        <item
+            android:id="@+id/nav_wallet"
+            android:checked="false"
+            android:icon="@drawable/wallet"
+            android:title=" 我的钱包" />
+        <item
+            android:id="@+id/nav_car"
+            android:checked="false"
+            android:icon="@drawable/car"
+            android:title="我的车辆" />
     </group>
+
+
+
 </menu>

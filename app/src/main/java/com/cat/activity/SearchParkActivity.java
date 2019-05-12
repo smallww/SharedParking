@@ -54,7 +54,7 @@ public class SearchParkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //状态栏颜色一致
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= 21) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);

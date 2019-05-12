@@ -107,7 +107,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         //状态栏颜色一致
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >=21) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -127,11 +127,11 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         }
 
         setContentView(R.layout.person_data);
-        initview();
+        initView();
         initdata();
     }
 
-    private void initview() {
+    private void initView() {
 
 
 
@@ -416,7 +416,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
                                     else{
                                         SharedPreferences.Editor editor = preferences.edit();
                                         editor.putString("gender",obj);
-                                        editor.commit();
+                                        editor.apply();
                                         dialog.dismiss();
                                         gtextview.setText(obj);
                                         Toast.makeText(PersonDataActivity.this,"修改成功",Toast.LENGTH_SHORT).show();

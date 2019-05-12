@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#0D2196F3"/>
+    <!-- 表示shape的四个角的角度。只适用于矩形shape，这里的角度是指圆角的程度 -->
+    <corners android:radius="4dp" />
+    <stroke
+        android:width="2dip"
+        android:color="#2196F3" />
+</shape>

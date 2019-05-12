@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/color_ffffff"
+    tools:context=".activity.WalletActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_wallet"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#008577"
+        app:theme="@style/Theme.Toolbar.Base"
+        app:popupTheme="@style/Theme.Toolbar.Base" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#009688"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/colorPrimary">
+        <LinearLayout
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_ffffff"
+                android:textSize="20sp"
+                android:text="钱包余额"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/money"
+                android:drawableStart="@drawable/yuan"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="135dp"
+                android:text=" 0.00"
+                android:textSize="40sp"
+                android:textColor="@color/color_ffffff"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv_show_ye"
+                android:layout_width="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/pass_gone" />
+        </LinearLayout>
+    </RelativeLayout>
+   <View
+       android:layout_width="match_parent"
+       android:background="@color/color_eeeeee"
+       android:layout_height="8dp"/>
+    <TextView
+        android:id="@+id/charge_money"
+        android:layout_width="match_parent"
+        android:drawableStart="@drawable/charge"
+        android:text="   现金充值"
+        android:padding="12dp"
+        android:gravity="center|start"
+        android:textSize="20sp"
+        android:drawableEnd="@drawable/arrow"
+        android:layout_height="60dp" />
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/color_eeeeee"
+        android:layout_height="8dp"/>
+    <TextView
+        android:id="@+id/cash_money"
+        android:layout_width="match_parent"
+        android:drawableStart="@drawable/cash"
+        android:text="   余额提现"
+        android:padding="12dp"
+        android:gravity="center|start"
+        android:textSize="20sp"
+        android:drawableEnd="@drawable/arrow"
+        android:layout_height="60dp" />
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/color_eeeeee"
+        android:layout_height="8dp"/>
+
+</LinearLayout>
+

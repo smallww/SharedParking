@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="人人有车位"
+                android:text=""
                 android:textSize="18dp"
                 android:textColor="@color/color_ffffff"
                 android:layout_gravity="center"/>

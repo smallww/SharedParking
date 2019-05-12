@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/color_ffffff"
+    android:orientation="vertical"
+    tools:context=".activity.SharedActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_shared"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#008577"
+        app:theme="@style/Theme.Toolbar.Base"
+        app:popupTheme="@style/Theme.Toolbar.Base"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/color_eeeeee"
+        />
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text=" 选择您的车位："
+            android:textColor="@color/sbc_header_text"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/select_text"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:padding="6dp"
+                android:gravity="center|start"
+                android:layout_marginEnd="20dp"
+                android:drawableEnd="@drawable/arrow"
+                android:hint="    请选择您的车位"
+                android:background="@drawable/textview_border"/>
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text=" 选择您车位可停的时间段："
+            android:textColor="@color/sbc_header_text"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/startTime"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/textview_border"
+                android:padding="6dp"
+                android:hint="起始时间"
+                android:gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginStart="8dp"
+                android:padding="6dp"
+                android:text="至"
+                android:textColor="#000"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/endTime"
+                android:layout_marginStart="8dp"
+                android:padding="6dp"
+                android:hint=" 结束时间"
+                android:gravity="center"
+                android:background="@drawable/textview_border"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text=" *车位地址："
+            android:textColor="@color/sbc_header_text"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:padding="6dp"
+            android:gravity="start"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/textview_border"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text=" *车位编号："
+            android:textColor="@color/sbc_header_text"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:padding="6dp"
+            android:gravity="start"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/textview_border"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text=" *发布人："
+            android:textColor="@color/sbc_header_text"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:padding="6dp"
+            android:gravity="start"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/textview_border"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text=" *联系电话："
+            android:textColor="@color/sbc_header_text"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:padding="6dp"
+            android:gravity="start"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/textview_border"
+            android:layout_height="40dp" />
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_btn_login_selected"
+            android:text="发布"
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

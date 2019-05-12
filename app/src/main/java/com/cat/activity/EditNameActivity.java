@@ -187,7 +187,7 @@ public class EditNameActivity extends AppCompatActivity implements View.OnClickL
                                 //存储用户资料到本地
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("username",username);
-                                editor.commit();
+                                editor.apply();
                                 dialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "修改成功！", Toast.LENGTH_SHORT).show();
                                 finish();
