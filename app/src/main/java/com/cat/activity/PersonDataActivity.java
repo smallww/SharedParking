@@ -100,7 +100,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -239,8 +239,8 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         String Num=phone.substring(0,3)+"****"+phone.substring(7,phone.length());
         phonetext.setText(Num);
 
-        String store = preferences.getString("score","");
-        storetext.setText(store);
+        String balance = preferences.getString("balance","");
+        storetext.setText(balance);
         
     }
 
@@ -310,7 +310,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
                             RequestParams rp = new RequestParams();
                             rp.put("userid",preferences.getString("userid",""));
                             rp.put("headpic",fileCropUri);
-                            asyncHttpClient.post(BASEURL+"user/updateheadpic",rp,new JsonHttpResponseHandler(){
+                            asyncHttpClient.post(BASEURL+"SPuser/updateheadpic",rp,new JsonHttpResponseHandler(){
                                 @Override
                                 public void onSuccess(JSONObject response) {
                                     super.onSuccess(response);
@@ -401,7 +401,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
                         uid = preferences.getString("userid","");
                         rp.put("id",uid);
                         rp.put("gender",g);
-                        asyncHttpClient.post(BASEURL + "user/updategender",rp,new JsonHttpResponseHandler(){
+                        asyncHttpClient.post(BASEURL + "SPuser/updategender",rp,new JsonHttpResponseHandler(){
                             @Override
                             public void onSuccess(JSONObject response) {
                                 super.onSuccess(response);

@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cat.R;
+import com.cat.entity.SPuser;
 import com.cat.entity.User;
 import com.cat.stringcache.AndroidBug5497Workaround;
 import com.ta.TASyncHttpClient;
@@ -68,7 +69,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    //final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
     final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     //存储相关
@@ -294,7 +294,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     RequestParams rp = new RequestParams();
                     rp.put("phonenumber",et_mobile.getText().toString() );
                     rp.put("password", et_password.getText().toString());
-                    asyncHttpClient.post(BASEURL + "user/login",rp,new JsonHttpResponseHandler() {
+                    asyncHttpClient.post(BASEURL + "SPuser/login",rp,new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(JSONObject response) {
                             super.onSuccess(response);
@@ -306,16 +306,15 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                     Toast.makeText(LoginActivity.this, errMsg, Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
                                 } else {
-                                    List<User> list = stringToList(obj, User.class);
-                                    User user = list.get(0);
+                                    List<SPuser> list = stringToList(obj, SPuser.class);
+                                    SPuser user = list.get(0);
                                     //存储用户资料到本地
                                     SharedPreferences.Editor editor = preferences.edit();
                                     editor.putString("userid", user.getUserId() + "");
                                     editor.putString("username", user.getUserName() + "");
                                     editor.putString("gender", user.getGender() + "");
                                     editor.putString("phone", user.getPhone() + "");
-                              //      editor.putString("score", user.getScore() + "");
-                                    editor.putString("balance", user.getScore() + "");
+                                    editor.putString("balance", user.getBalance() + "");
                                     editor.putString("password", user.getPassword() + "");
                                     editor.putString("headpic", user.getHeadPic() + "");
                                     editor.apply();

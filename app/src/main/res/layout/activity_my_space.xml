@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/color_ffffff"
+    tools:context=".activity.MySpaceActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_space"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#008577"
+        app:theme="@style/Theme.Toolbar.Base"
+        app:popupTheme="@style/Theme.Toolbar.Base" />
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addSpace"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/add"
+        app:backgroundTint="@color/PrimaryColor"
+        app:borderWidth="0dp" />
+
+    <com.cat.layout.VerticalSwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/spaceList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/player_grey"
+            android:dividerHeight="4dp"
+            android:padding="4dp"
+            tools:listitem="@layout/space_list"/>
+    </com.cat.layout.VerticalSwipeRefreshLayout>
+
+</RelativeLayout>
+
+
+</LinearLayout>

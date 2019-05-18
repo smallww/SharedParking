@@ -98,6 +98,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:padding="6dp"
+            android:id="@+id/name"
             android:gravity="start"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
@@ -117,6 +118,7 @@
         <TextView
             android:padding="6dp"
             android:gravity="start"
+            android:id="@+id/code"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
@@ -135,6 +137,7 @@
         <TextView
             android:padding="6dp"
             android:gravity="start"
+            android:id="@+id/people"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
@@ -153,6 +156,7 @@
         <TextView
             android:padding="6dp"
             android:gravity="start"
+            android:id="@+id/phone"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"

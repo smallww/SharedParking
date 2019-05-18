@@ -59,7 +59,7 @@ public class ShelfBookActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.url_btn) Button url_btn;
     @BindView(R.id.isbnText) TextView isbnText;
     @BindView(R.id.messageText) TextView messageText;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

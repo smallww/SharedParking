@@ -56,7 +56,7 @@ public class EditNameActivity extends AppCompatActivity implements View.OnClickL
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     //存储相关
     SharedPreferences preferences;
@@ -170,7 +170,7 @@ public class EditNameActivity extends AppCompatActivity implements View.OnClickL
                 pid = preferences.getString("userid","");
                 rp.put("username",username);
                 rp.put("id",pid);
-                asyncHttpClient.post(BASEURL + "user/update",rp,new JsonHttpResponseHandler(){
+                asyncHttpClient.post(BASEURL + "SPuser/update",rp,new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(JSONObject response) {
                         super.onSuccess(response);

@@ -112,7 +112,7 @@ public class BookShelfActivity extends AppCompatActivity implements View.OnClick
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
 
     //扫码变量声明
@@ -129,7 +129,7 @@ public class BookShelfActivity extends AppCompatActivity implements View.OnClick
         WindowManager.LayoutParams localLayoutParams = getWindow ().getAttributes ();
         localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         setContentView(R.layout.content_book_shelf);
-        initview();
+        initView();
     }
 
     private void loadData() {
@@ -294,7 +294,7 @@ public class BookShelfActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void initview() {
+    private void initView() {
         //绑定控件
         title = (Toolbar) findViewById(R.id.template_toolbar);
 

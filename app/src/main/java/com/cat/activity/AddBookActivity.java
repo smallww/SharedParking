@@ -60,7 +60,7 @@ public class AddBookActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.isbnText) TextView isbnText;
     @BindView(R.id.add_btn) Button add_btn;
     @BindView(R.id.cancel_btn) Button cancel_btn;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

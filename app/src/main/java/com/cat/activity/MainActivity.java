@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
 
     @Override
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             RequestParams rp = new RequestParams();
             rp.put("devicetoken", preferences.getString("devicetoken",""));
             rp.put("userid", preferences.getString("userid",""));
-            asyncHttpClient.post(BASEURL + "user/registerDevice", rp, new JsonHttpResponseHandler() {
+            asyncHttpClient.post(BASEURL + "SPuser/registerDevice", rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     super.onSuccess(response);
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent7);
                 return true;
             case R.id.nav_kfu:
-                Intent intent8 = new Intent(MainActivity.this,AddParkingActivity.class);
+                Intent intent8 = new Intent(MainActivity.this,MySpaceActivity.class);
                 startActivity(intent8);
                 return true;
             case R.id.nav_wallet:

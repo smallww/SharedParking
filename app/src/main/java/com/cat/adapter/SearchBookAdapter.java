@@ -48,7 +48,7 @@ public class SearchBookAdapter extends BaseAdapter {
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     //控件声明
     AlertDialog dialog;

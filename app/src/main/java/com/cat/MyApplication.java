@@ -43,7 +43,7 @@ public class MyApplication extends TAApplication {
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     @Override
     public void onCreate() {
@@ -134,7 +134,7 @@ public class MyApplication extends TAApplication {
                     RequestParams rp = new RequestParams();
                     rp.put("devicetoken", deviceToken);
                     rp.put("userid", preferences.getString("userid",""));
-                    asyncHttpClient.post(BASEURL + "user/registerDevice", rp, new JsonHttpResponseHandler() {
+                    asyncHttpClient.post(BASEURL + "SPuser/registerDevice", rp, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(JSONObject response) {
                             super.onSuccess(response);

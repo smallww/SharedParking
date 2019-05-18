@@ -3,7 +3,9 @@ package com.cat.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -18,18 +20,36 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.cat.R;
+import com.cat.entity.SpaceItem;
+import com.cat.entity.SpaceJson;
+import com.ta.annotation.TAInject;
+import com.ta.util.http.AsyncHttpClient;
+import com.ta.util.http.JsonHttpResponseHandler;
+import com.ta.util.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.Calendar;
+
+import dmax.dialog.SpotsDialog;
+
+import static com.cat.activity.MainActivity.stringToList;
 
 public class SharedActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView startTime;
     private TextView endTime;
-    private Button submit;
-    private TextView select_text;
+    //共享变量
+    private SharedPreferences sharedPreferences;
+    private android.app.AlertDialog dialog;
+
+    @TAInject
+    private AsyncHttpClient asyncHttpClient;
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +77,35 @@ public class SharedActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_shared);
         initView();
+
     }
 
     private void initView() {
+        dialog = new SpotsDialog(this);
+
+        Intent intent = getIntent();
+        SpaceJson spaceJson = (SpaceJson)intent.getSerializableExtra("spaceJson");
 
         /*初始化各个控件*/
         toolbar = (Toolbar) findViewById(R.id.toolbar_shared);
         startTime= (TextView) findViewById(R.id.startTime);
         endTime=(TextView) findViewById(R.id.endTime);
-        select_text= (TextView) findViewById(R.id.select_text);
-        submit=(Button)findViewById(R.id.btn_submit);
+        TextView select_text = (TextView) findViewById(R.id.select_text);
+        Button submit = (Button) findViewById(R.id.btn_submit);
+
+        TextView name_text = (TextView) findViewById(R.id.name);
+        TextView people_text = (TextView) findViewById(R.id.people);
+        TextView phone_text = (TextView) findViewById(R.id.phone);
+        TextView code_text = (TextView) findViewById(R.id.code);
+
+        if (spaceJson != null) {
+            select_text.setHint("    已选择车位");
+            select_text.setHintTextColor(Color.parseColor("#FF0099CC"));
+            name_text.setText(spaceJson.getSpaceName());
+            people_text.setText(spaceJson.getOwnerName());
+            phone_text.setText(spaceJson.getContactNum());
+            code_text.setText(spaceJson.getSpaceNum().toString());
+        }
 
         setSupportActionBar(toolbar);
         //
@@ -112,12 +151,69 @@ public class SharedActivity extends AppCompatActivity {
                     true).show();
         });
         select_text.setOnClickListener(v -> {
-            Intent intent = new Intent(SharedActivity.this,IssueSpaceActivity.class);
-            startActivity(intent);
+            Intent intent2 = new Intent(SharedActivity.this,MySpaceActivity.class);
+            startActivity(intent2);
         });
         submit.setOnClickListener(v ->{
+            String start = startTime.getText().toString();
+            String end = endTime.getText().toString();
 
+            if ("请选择您的车位".equals(select_text.getHint().toString().trim())) {
+                Toast.makeText(this, "请选择您的车位", Toast.LENGTH_SHORT).show();
+            }
+           else if (start.isEmpty() || end.isEmpty()) {
+                Toast.makeText(this, "请选择时间段", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                RequestParams rp = new RequestParams();
+                sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                asyncHttpClient = new AsyncHttpClient();
+                rp.put("userid", sharedPreferences.getString("userid", null));
+                rp.put("start",start);
+                rp.put("end",end);
+                rp.put("start",start);
+
+                asyncHttpClient.post(BASEURL + "task/addTask",rp, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        super.onSuccess(response);
+                        try {
+                            String retcode = response.getString("retcode");
+                            if (retcode != null && !retcode.equals("0000")) {
+                                String errorMsg = response.getString("errorMsg");
+                                Toast.makeText(SharedActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+
+
+                            } else {
+                                spaceJsons = stringToList(response.getJSONArray("obj").toString(),SpaceJson.class);
+                                for(SpaceJson sj:spaceJsons){
+                                    SpaceItem item = new SpaceItem();
+                                    item.setSpaceName(sj.getSpaceName());
+                                    item.setSpaceNum(sj.getSpaceNum());
+                                    item.setOwnerName(sj.getOwnerName());
+                                    item.setInnerTime(sj.getReleaseTime());
+                                    item.setContactNum(sj.getContactNum());
+                                    list.add(item);
+                                    listView.setAdapter(spaceListAdapter);
+                                }
+                                //Log.i("111",spaceListAdapter.getCount()+"!!!!!!!!!!");
+                            }
+                        } catch (Exception e) {
+                            Log.e("111",e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable error) {
+                        super.onFailure(error);
+                        dialog.dismiss();
+                        Toast.makeText(MySpaceActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
+                    }
                 });
+            }
+        });
 
     }
 

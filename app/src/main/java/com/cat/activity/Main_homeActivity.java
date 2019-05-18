@@ -121,7 +121,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
     private UiSettings mUiSettings;
 
     private SearchView searchView;
@@ -168,7 +168,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
             RequestParams rp = new RequestParams();
             rp.put("devicetoken", preferences.getString("devicetoken",""));
             rp.put("userid", preferences.getString("userid",""));
-            asyncHttpClient.post(BASEURL + "user/registerDevice", rp, new JsonHttpResponseHandler() {
+            asyncHttpClient.post(BASEURL + "SPuser/registerDevice", rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     super.onSuccess(response);

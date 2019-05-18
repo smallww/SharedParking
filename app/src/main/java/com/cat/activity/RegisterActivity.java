@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cat.R;
+import com.cat.entity.SPuser;
 import com.cat.entity.User;
 import com.cat.stringcache.AndroidBug5497Workaround;
 import com.ta.TASyncHttpClient;
@@ -63,7 +64,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     private int screenHeight = 0;//屏幕高度
     private int keyHeight = 0; //软件盘弹起后所占高度
@@ -267,7 +268,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                     rp.put("phonenumber",et_mobile.getText().toString() );
                     rp.put("password", et_password.getText().toString());
                     rp.put("username", "未命名");
-                    asyncHttpClient.post(BASEURL + "user/register",rp,new JsonHttpResponseHandler() {
+                    asyncHttpClient.post(BASEURL + "SPuser/register",rp,new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(JSONObject response) {
                             super.onSuccess(response);
@@ -278,8 +279,8 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                                 if (retcode.equals("0001")) {
                                     Toast.makeText(RegisterActivity.this, errMsg, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    List<User> list = stringToList(obj, User.class);
-                                    User user = list.get(0);
+                                    List<SPuser> list = stringToList(obj, SPuser.class);
+                                    SPuser user = list.get(0);
                                     //存储用户资料到本地
                                     SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = preferences.edit();
@@ -287,7 +288,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                                     editor.putString("username", user.getUserName() + "");
                                     editor.putString("gender", user.getGender() + "");
                                     editor.putString("phone", user.getPhone() + "");
-                                    editor.putString("score", user.getScore() + "");
+                                    editor.putString("balance", user.getBalance() + "");
                                     editor.putString("password", user.getPassword() + "");
                                     editor.putString("headpic", user.getHeadPic() + "");
                                     editor.apply();

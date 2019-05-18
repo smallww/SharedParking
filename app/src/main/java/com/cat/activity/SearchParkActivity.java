@@ -45,7 +45,7 @@ public class SearchParkActivity extends AppCompatActivity {
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     private static SearchParkActivity searchParkActivity;
     @Override

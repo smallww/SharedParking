@@ -68,7 +68,7 @@ public class FragmentBottom extends Fragment{
     private TASyncHttpClient syncHttpClient;
     @TAInject
     private AsyncHttpClient asyncHttpClient;
-    final String BASEURL = "http://192.168.199.206:8080/bookstore/restful/";
+    final String BASEURL = "http://192.168.199.206:8080/share/restful/";
 
     public static FragmentBottom newInstance(Travel travel) {
         Bundle args = new Bundle();
