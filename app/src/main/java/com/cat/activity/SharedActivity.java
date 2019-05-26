@@ -151,69 +151,70 @@ public class SharedActivity extends AppCompatActivity {
                     true).show();
         });
         select_text.setOnClickListener(v -> {
-            Intent intent2 = new Intent(SharedActivity.this,MySpaceActivity.class);
+            Intent intent2 = new Intent(SharedActivity.this,IssueSpaceActivity.class);
             startActivity(intent2);
+            finish();
         });
-        submit.setOnClickListener(v ->{
-            String start = startTime.getText().toString();
-            String end = endTime.getText().toString();
-
-            if ("请选择您的车位".equals(select_text.getHint().toString().trim())) {
-                Toast.makeText(this, "请选择您的车位", Toast.LENGTH_SHORT).show();
-            }
-           else if (start.isEmpty() || end.isEmpty()) {
-                Toast.makeText(this, "请选择时间段", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                RequestParams rp = new RequestParams();
-                sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-
-                asyncHttpClient = new AsyncHttpClient();
-                rp.put("userid", sharedPreferences.getString("userid", null));
-                rp.put("start",start);
-                rp.put("end",end);
-                rp.put("start",start);
-
-                asyncHttpClient.post(BASEURL + "task/addTask",rp, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(JSONObject response) {
-                        super.onSuccess(response);
-                        try {
-                            String retcode = response.getString("retcode");
-                            if (retcode != null && !retcode.equals("0000")) {
-                                String errorMsg = response.getString("errorMsg");
-                                Toast.makeText(SharedActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-
-
-                            } else {
-                                spaceJsons = stringToList(response.getJSONArray("obj").toString(),SpaceJson.class);
-                                for(SpaceJson sj:spaceJsons){
-                                    SpaceItem item = new SpaceItem();
-                                    item.setSpaceName(sj.getSpaceName());
-                                    item.setSpaceNum(sj.getSpaceNum());
-                                    item.setOwnerName(sj.getOwnerName());
-                                    item.setInnerTime(sj.getReleaseTime());
-                                    item.setContactNum(sj.getContactNum());
-                                    list.add(item);
-                                    listView.setAdapter(spaceListAdapter);
-                                }
-                                //Log.i("111",spaceListAdapter.getCount()+"!!!!!!!!!!");
-                            }
-                        } catch (Exception e) {
-                            Log.e("111",e.toString());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable error) {
-                        super.onFailure(error);
-                        dialog.dismiss();
-                        Toast.makeText(MySpaceActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+//        submit.setOnClickListener(v ->{
+//            String start = startTime.getText().toString();
+//            String end = endTime.getText().toString();
+//
+//            if ("请选择您的车位".equals(select_text.getHint().toString().trim())) {
+//                Toast.makeText(this, "请选择您的车位", Toast.LENGTH_SHORT).show();
+//            }
+//           else if (start.isEmpty() || end.isEmpty()) {
+//                Toast.makeText(this, "请选择时间段", Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+//                RequestParams rp = new RequestParams();
+//                sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+//
+//                asyncHttpClient = new AsyncHttpClient();
+//                rp.put("userid", sharedPreferences.getString("userid", null));
+//                rp.put("start",start);
+//                rp.put("end",end);
+//                rp.put("start",start);
+//
+//                asyncHttpClient.post(BASEURL + "task/addTask",rp, new JsonHttpResponseHandler() {
+//                    @Override
+//                    public void onSuccess(JSONObject response) {
+//                        super.onSuccess(response);
+//                        try {
+//                            String retcode = response.getString("retcode");
+//                            if (retcode != null && !retcode.equals("0000")) {
+//                                String errorMsg = response.getString("errorMsg");
+//                                Toast.makeText(SharedActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+//                                dialog.dismiss();
+//
+//
+//                            } else {
+//                                spaceJsons = stringToList(response.getJSONArray("obj").toString(),SpaceJson.class);
+//                                for(SpaceJson sj:spaceJsons){
+//                                    SpaceItem item = new SpaceItem();
+//                                    item.setSpaceName(sj.getSpaceName());
+//                                    item.setSpaceNum(sj.getSpaceNum());
+//                                    item.setOwnerName(sj.getOwnerName());
+//                                    item.setInnerTime(sj.getReleaseTime());
+//                                    item.setContactNum(sj.getContactNum());
+//                                    list.add(item);
+//                                    listView.setAdapter(spaceListAdapter);
+//                                }
+//                                //Log.i("111",spaceListAdapter.getCount()+"!!!!!!!!!!");
+//                            }
+//                        } catch (Exception e) {
+//                            Log.e("111",e.toString());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable error) {
+//                        super.onFailure(error);
+//                        dialog.dismiss();
+//                        Toast.makeText(MySpaceActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
 
     }
 

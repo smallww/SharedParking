@@ -1,8 +1,8 @@
 package com.cat.activity;
 
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -33,18 +33,18 @@ import com.ta.util.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ChargeMoneyActivity extends AppCompatActivity implements View.OnClickListener {
+import java.text.DecimalFormat;
 
+import dmax.dialog.SpotsDialog;
+
+public class CashOutActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SpotsDialog dialog;
     private Toolbar toolbar;
-    private TextView money;
+    private TextView allin;
     private Button button;
-    private Button button1;
-    private Button button2;
-    private Button button3;
-    private Button button4;
-    private Button button5;
-    private EditText editText;
-    private Button bth_charge;
+    private EditText cash_out;
+
 
     private String userId;
     //网络请求相关
@@ -78,42 +78,39 @@ public class ChargeMoneyActivity extends AppCompatActivity implements View.OnCli
             window.setStatusBarColor(color);
 
         }
-        setContentView(R.layout.activity_charge_money);
+        setContentView(R.layout.activity_cash_out);
         initView();
     }
 
     private void initView() {
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_charge);
-        money= (TextView) findViewById(R.id.money);
-        button= (Button) findViewById(R.id.button);
-        button1= (Button) findViewById(R.id.button1);
-        button2= (Button) findViewById(R.id.button2);
-        button3= (Button) findViewById(R.id.button3);
-        button4= (Button) findViewById(R.id.button4);
-        button5= (Button) findViewById(R.id.button5);
-        editText= (EditText) findViewById(R.id.other_money);
 
-        bth_charge= (Button) findViewById(R.id.bth_charge);
+        dialog = new SpotsDialog(CashOutActivity.this);
+        //初始化控件
+        toolbar = (Toolbar) findViewById(R.id.toolbar_cash);
+        allin = (TextView) findViewById(R.id.allin);
+        button= (Button) findViewById(R.id.bth_out);
+        cash_out= (EditText) findViewById(R.id.cash_out);
 
-        money.setOnClickListener(this);
+        allin.setOnClickListener(this);
         button.setOnClickListener(this);
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        bth_charge.setOnClickListener(this);
 
-
-
-        toolbar.setTitle("现金充值");
+        toolbar.setTitle("余额提现");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.return_btn);//设置返回icon
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        editText.addTextChangedListener(new TextWatcher() {
+        //输入框监听
+        setTextWatcher();
+
+    }
+
+    private void setTextWatcher() {
+        sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        int max= Integer.parseInt(sharedPreferences.getString("balance",""));
+        int min=0;
+        cash_out.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,8 +119,25 @@ public class ChargeMoneyActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                money.setText(editText.getText().toString());
+                if (start >= 0) {//从一输入就开始判断，
+                    if (max != -1) {
+                        try {
+                            int num = Integer.parseInt(s.toString());
+                            //判断当前edittext中的数字(可能一开始Edittext中有数字)是否大于max
+                            if (num > max) {
+                                s = String.valueOf(max);//如果大于max，则内容为max
+                                cash_out.setText(s);
+                                Toast.makeText(CashOutActivity.this, "提现金额的数目不能超过"+ max +"元哦", Toast.LENGTH_SHORT).show();
 
+                            } else if (num <= min) {
+                                Toast.makeText(CashOutActivity.this, "提现金额的数目不能为空哦", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        //edittext中的数字在max和min之间，则不做处理，正常显示即可。
+                    }
+                }
             }
 
             @Override
@@ -136,48 +150,35 @@ public class ChargeMoneyActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         int id=v.getId();
-        switch (id){
-            case R.id.button:
-                money.setText(button.getText().toString().substring(0,2));
+        switch (id) {
+            case R.id.allin:
+                sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                cash_out.setText(sharedPreferences.getString("balance",""));
                 break;
-            case R.id.button1:
-                money.setText(button1.getText().toString().substring(0,2));
-                break;
-            case R.id.button2:
-                money.setText(button2.getText().toString().substring(0,2));
-                break;
-            case R.id.button3:
-                money.setText(button3.getText().toString().substring(0,3));
-                break;
-            case R.id.button4:
-                money.setText(button4.getText().toString().substring(0,3));
-                break;
-            case R.id.button5:
-                money.setText(button5.getText().toString().substring(0,3));
-                break;
-            case R.id.bth_charge:
-                if(("").equals(money.getText().toString())){
-                    Toast.makeText(this, "充值金额不能为空，请仔细填写哦", Toast.LENGTH_SHORT).show();
-                }else if(("0").equals(editText.getText().toString())){
-                    Toast.makeText(this, "填写的金额不能为0哦", Toast.LENGTH_SHORT).show();
-            }else{
+            case R.id.bth_out:
+                Log.i("666","fgdfgdfgd");
+                if(("").equals(cash_out.getText().toString())){
+                    Toast.makeText(this, "提现金额不能为空，请仔细填写哦", Toast.LENGTH_SHORT).show();
+                }else if(("0").equals(cash_out.getText().toString())){
+                    Toast.makeText(this, "提现的金额不能为0哦", Toast.LENGTH_SHORT).show();
+                }else{
                     sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
                     userId = sharedPreferences.getString("userid", null);
-                    String balance=money.getText().toString().trim();
-                    new AlertDialog.Builder(this).setTitle("友情提示").setMessage("确定充值吗？")
+                    String balance=cash_out.getText().toString().trim();
+                    new AlertDialog.Builder(this).setTitle("友情提示").setMessage("确定提现吗？")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     RequestParams rp = new RequestParams();
                                     rp.put("userid",userId);
                                     rp.put("balance",balance);
-                                    String s  = BASEURL + "SPuser/chargeMoney";
+                                    String s  = BASEURL + "SPuser/outMoney";
                                     asyncHttpClient = new AsyncHttpClient();
                                     asyncHttpClient.post(s,rp,new JsonHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(JSONObject response) {
                                             super.onSuccess(response);
-                                            Toast.makeText(ChargeMoneyActivity.this, "充值成功！啦啦啦", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CashOutActivity.this, "提现成功！啦啦啦", Toast.LENGTH_SHORT).show();
                                             String obj = null;
                                             try {
                                                 obj = response.getString("obj");
@@ -189,11 +190,10 @@ public class ChargeMoneyActivity extends AppCompatActivity implements View.OnCli
                                             editor.apply();
                                             finish();
 
-
                                         }
                                         @Override
                                         public void onFailure(Throwable error) {
-                                            Toast.makeText(ChargeMoneyActivity.this, "哎呀呀，出了点问题呢...", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CashOutActivity.this, "哎呀呀，出了点问题呢...", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -205,7 +205,6 @@ public class ChargeMoneyActivity extends AppCompatActivity implements View.OnCli
                                 }
                             }).show();
                 }
-
                 break;
 
         }

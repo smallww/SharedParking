@@ -36,7 +36,6 @@
                     android:text="车位地址"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    tool:text="多欻audo"
                     />
             </LinearLayout>
 

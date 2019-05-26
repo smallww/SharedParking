@@ -82,10 +82,14 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     private WheelViewDialog wdialog;
     private TextView gtextview;
     private String value;
+    private TextView cartext;
     private TextView phonetext;
     private TextView storetext;
     private TextView uptext;
     private Button exit;
+
+    private LinearLayout carlinerlayout;
+    private LinearLayout balalinerlayout;
     Dialog dialog;
     //定义本地存储
     SharedPreferences preferences;
@@ -101,6 +105,8 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     @TAInject
     private AsyncHttpClient asyncHttpClient;
     final String BASEURL = "http://192.168.199.206:8080/share/restful/";
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,6 +160,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         gtextview = (TextView) findViewById(R.id.textView5);
         phonetext = (TextView) findViewById(R.id.textView8);
         storetext = (TextView) findViewById(R.id.textView9);
+        cartext=(TextView) findViewById(R.id.textViewb);
         uptext = (TextView) findViewById(R.id.uptextView);
         exit = (Button) findViewById(R.id.exitbutton);
         exit.setOnClickListener(this);
@@ -194,6 +201,13 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         slinerlayout = (LinearLayout) findViewById(R.id.sex_linear);
         slinerlayout.setOnClickListener(this);
 
+        //我的余额
+        balalinerlayout = (LinearLayout) findViewById(R.id.balance);
+        balalinerlayout.setOnClickListener(this);
+
+        //我的车牌
+        carlinerlayout = (LinearLayout) findViewById(R.id.car_num);
+        carlinerlayout.setOnClickListener(this);
 
 
     }
@@ -241,7 +255,9 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
 
         String balance = preferences.getString("balance","");
         storetext.setText(balance);
-        
+
+        String carNum=preferences.getString("carnumer","");
+        cartext.setText(carNum);
     }
 
     @Override
@@ -437,19 +453,41 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
                 break;
-            case R.id.exitbutton:
-                //保留token
-                String token = preferences.getString("devicetoken","");
-                boolean isGetToken = preferences.getBoolean("isGetToken",false);
-                preferences.edit().clear().apply();
-                preferences.edit().putString("devicetoken",token).apply();
-                preferences.edit().putBoolean("isGetToken",isGetToken).apply();
-
+            case R.id.balance:
                 //跳转Login
-                Intent intent = new Intent(PersonDataActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finishMain();
-                finish();
+                Intent intent1 = new Intent(PersonDataActivity.this, WalletActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.car_num:
+                //跳转Login
+                Intent intent2 = new Intent(PersonDataActivity.this, PlateNumActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.exitbutton:
+                new AlertDialog.Builder(PersonDataActivity.this).setTitle("友情提示").setMessage("确定退出登录吗")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //保留token
+                                String token = preferences.getString("devicetoken","");
+                                boolean isGetToken = preferences.getBoolean("isGetToken",false);
+                                preferences.edit().clear().apply();
+                                preferences.edit().putString("devicetoken",token).apply();
+                                preferences.edit().putBoolean("isGetToken",isGetToken).apply();
+
+                                //跳转Login
+                                Intent intent = new Intent(PersonDataActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finishMain();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
                 break;
         }
     }

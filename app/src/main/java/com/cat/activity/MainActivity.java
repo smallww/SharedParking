@@ -207,55 +207,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.inbox:
                 //个人资料
                 Intent intent = new Intent(MainActivity.this,PersonDataActivity.class);
-                intent.putExtra("title","我的钱包");
                 startActivity(intent);
                 return true;
-            case R.id.starred:
-                //借阅记录
-                Intent intent2 = new Intent(MainActivity.this,BookLendHistoryActivity.class);
-                intent2.putExtra("title","借阅记录");
+            case R.id.nav_wallet:
+                Intent intent2 = new Intent(MainActivity.this,WalletActivity.class);
                 startActivity(intent2);
                 return true;
-            case R.id.sent_mail:
-                //我的书架
-                Intent intent3 = new Intent(MainActivity.this,BookShelfActivity.class);
-                intent3.putExtra("title","我的书架");
+            case R.id.nav_car:
+                Intent intent3 = new Intent(MainActivity.this,MyCarActivity.class);
                 startActivity(intent3);
                 return true;
-            case R.id.drafts:
-                //设置
-                Intent intent4 = new Intent(MainActivity.this,ReservationSActivity.class);
-                intent4.putExtra("title","我的预约");
+            case R.id.nav_space:
+                Intent intent4 = new Intent(MainActivity.this,MySpaceActivity.class);
                 startActivity(intent4);
                 return true;
-            case R.id.allmail:
-                //使用指南
-                Intent intent5 = new Intent(MainActivity.this,ReservationRActivity.class);
-                intent5.putExtra("title","被预约信息");
+            case R.id.nav_fixer:
+                Intent intent5 = new Intent(MainActivity.this,MySpaceActivity.class);
                 startActivity(intent5);
                 return true;
-            case R.id.trash:
-                //关于我们
-                Intent intent6 = new Intent(MainActivity.this,TemplateActivity.class);
-                intent6.putExtra("title","关于我们");
+            case R.id.nav_share:
+                Intent intent6 = new Intent(MainActivity.this,MySpaceActivity.class);
                 startActivity(intent6);
                 return true;
+
+
+
+//            case R.id.starred:
+//                //借阅记录
+//                Intent intent2 = new Intent(MainActivity.this,BookLendHistoryActivity.class);
+//                intent2.putExtra("title","借阅记录");
+//                startActivity(intent2);
+//                return true;
+//            case R.id.sent_mail:
+//                //我的书架
+//                Intent intent3 = new Intent(MainActivity.this,BookShelfActivity.class);
+//                intent3.putExtra("title","我的书架");
+//                startActivity(intent3);
+//                return true;
+//            case R.id.drafts:
+//                //设置
+//                Intent intent4 = new Intent(MainActivity.this,ReservationSActivity.class);
+//                intent4.putExtra("title","我的预约");
+//                startActivity(intent4);
+//                return true;
+//            case R.id.allmail:
+//                //使用指南
+//                Intent intent5 = new Intent(MainActivity.this,ReservationRActivity.class);
+//                intent5.putExtra("title","被预约信息");
+//                startActivity(intent5);
+//                return true;
+//            case R.id.trash:
+//                //关于我们
+//                Intent intent6 = new Intent(MainActivity.this,TemplateActivity.class);
+//                intent6.putExtra("title","关于我们");
+//                startActivity(intent6);
+//                return true;
             case R.id.nav_setting:
-                Intent intent7 = new Intent(MainActivity.this,SharedActivity.class);
+                Intent intent7 = new Intent(MainActivity.this,SettingOtherActivity.class);
                 startActivity(intent7);
                 return true;
             case R.id.nav_kfu:
                 Intent intent8 = new Intent(MainActivity.this,MySpaceActivity.class);
                 startActivity(intent8);
                 return true;
-            case R.id.nav_wallet:
-                Intent intent9 = new Intent(MainActivity.this,WalletActivity.class);
-                startActivity(intent9);
-                return true;
-            case R.id.nav_car:
-                Intent intent10 = new Intent(MainActivity.this,PlateNumActivity.class);
-                startActivity(intent10);
-                return true;
+
+
             default:
                 return true;
 
@@ -267,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initData() {
         dialog.show();
        // Picasso.with(context().load(preferences.getString("headpic","")).placeholder(R.drawable.default_image).into(headpic);//set bg
-        Picasso.with(this).load(preferences.getString("headpic","")).placeholder(R.drawable.default_image).into(headpic);
+        Picasso.with(this).load(preferences.getString("headpic","")).placeholder(R.drawable.me).into(headpic);
         username.setText(preferences.getString("username",""));
         phone.setText(preferences.getString("phone",""));
         asyncHttpClient.post(BASEURL + "bookStore/getAllBookStore",new JsonHttpResponseHandler(){
@@ -308,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this,RecentActiveActivity.class);
-            intent.putExtra("title","近期活动");
+            intent.putExtra("title","消息");
             startActivity(intent);
             return true;
         }
@@ -341,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.share:
-                Intent intent1 = new Intent(MainActivity.this,SearchParkActivity.class);
+                Intent intent1 = new Intent(MainActivity.this,SharedActivity.class);
                 startActivity(intent1);
                 break;
 

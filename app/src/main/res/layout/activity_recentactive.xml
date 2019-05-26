@@ -10,10 +10,10 @@
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <include
         android:id="@+id/template_toolbar"
-        layout="@layout/tool_bar"
-        />
+        layout="@layout/tool_bar" />
     <!--请在这里添加需要的控件-->
     <ListView
         android:id="@+id/active_list"

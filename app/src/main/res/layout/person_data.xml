@@ -44,7 +44,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
-                        android:src="@drawable/empty_photo"
+                        android:src="@drawable/me"
                         app:border_color="#FF000000" />
 
                     <TextView
@@ -160,7 +160,6 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="2"
-                    android:drawableRight="@drawable/arrow"
                     android:gravity="center_vertical|right"
                     android:text="13162303868"
                     android:textColor="#2C2C2C" />
@@ -168,6 +167,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -195,12 +195,14 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="2"
+                    android:drawableEnd="@drawable/arrow"
                     android:gravity="center_vertical|right"
                     android:text="0"
                     android:textColor="#2C2C2C" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/car_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bottom_line"
@@ -215,7 +217,7 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="2"
-                    android:text="我的收藏"
+                    android:text="我的车牌"
                     android:textColor="#2C2C2C" />
 
                 <TextView

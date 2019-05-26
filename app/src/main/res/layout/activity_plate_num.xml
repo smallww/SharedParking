@@ -59,7 +59,8 @@
         app:gpvGridColor="#ffffff"
         app:gpvLineColor="#2196F3"
         app:gpvLineWidth="1dp"
-        app:gpvPasswordLength="8"
+        android:layout_margin="2dp"
+        app:gpvPasswordLength="6"
         app:gpvPasswordType="textPassword"
         app:gpvTextColor="#2196F3"
         app:gpvTextSize="25sp" />
@@ -68,6 +69,7 @@
         android:id="@+id/plate_gpv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="2dp"
         android:visibility="visible"
         app:gpvGridColor="#ffffff"
         app:gpvLineColor="#2196F3"
@@ -105,20 +107,12 @@
         android:id="@+id/cb_new"
         />
     </LinearLayout>
-    <TextView
-        android:layout_marginTop="20sp"
-        android:padding="5dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_content"
-        />
     <Button
         android:id="@+id/bth_submit"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:background="@color/PrimaryColor"
+        android:background="@drawable/button_border"
         android:text="确认"
         android:textSize="22sp"
         android:textColor="@color/color_ffffff"

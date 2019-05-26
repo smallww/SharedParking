@@ -81,6 +81,7 @@ public class MySpaceActivity extends AppCompatActivity {
 
     //共享变量
     private SharedPreferences sharedPreferences;
+
     private SpaceListAdapter spaceListAdapter;
 
     @Override
@@ -117,6 +118,10 @@ public class MySpaceActivity extends AppCompatActivity {
         dialog = new SpotsDialog(MySpaceActivity.this);
         //初始化控件
         toolbar = (Toolbar) findViewById(R.id.toolbar_space);
+
+
+        toolbar.setTitle("我的车位");
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.return_btn);//设置返回icon
         toolbar.setNavigationOnClickListener(v -> {
@@ -146,6 +151,7 @@ public class MySpaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(MySpaceActivity.this,AddParkingActivity.class);
+                intent.putExtra("judge","0");
                 startActivity(intent);
             }
         });
@@ -155,10 +161,10 @@ public class MySpaceActivity extends AppCompatActivity {
         //listView.setAdapter(spaceListAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
 
-            Intent intent = new Intent(this, SharedActivity.class);
-            if (spaceJsons != null)
-                intent.putExtra("spaceJson",spaceJsons.get(position));
-            startActivity(intent);
+//            Intent intent = new Intent(this, SharedActivity.class);
+//            if (spaceJsons != null)
+//                intent.putExtra("spaceJson",spaceJsons.get(position));
+//            startActivity(intent);
        });
 
         sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
@@ -228,6 +234,7 @@ public class MySpaceActivity extends AppCompatActivity {
                         spaceJsons = stringToList(response.getJSONArray("obj").toString(),SpaceJson.class);
                         for(SpaceJson sj:spaceJsons){
                             SpaceItem item = new SpaceItem();
+                            item.setSpaceId(sj.getSpaceId());
                             item.setSpaceName(sj.getSpaceName());
                             item.setSpaceNum(sj.getSpaceNum());
                             item.setOwnerName(sj.getOwnerName());
@@ -265,7 +272,9 @@ public class MySpaceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent= new Intent(MySpaceActivity.this,AddParkingActivity.class);
+                    intent.putExtra("judge","0");
                     startActivity(intent);
+                    finish();
                 }
             })
             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -286,39 +295,39 @@ public class MySpaceActivity extends AppCompatActivity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
     }
-    private void deleteMethod(final int position, final Integer bookId) {
-        new AlertDialog.Builder(this).setTitle("友情提示").setMessage("确定要下架吗,这样做会扣除一点积分")
+    private void deleteMethod(final int position, final Integer SpaceId) {
+        new AlertDialog.Builder(this).setTitle("友情提示").setMessage("确定要删除该车位的信息吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        // 通过程序我们知道删除了，但是怎么刷新ListView呢？
-//                        // 只需要重新设置一下adapter
-//                        asyncHttpClient = new AsyncHttpClient();
-//                        RequestParams rp = new RequestParams();
-//                        rp.put("bookid", String.valueOf(bookId));
-//                        asyncHttpClient.post(BASEURL + "bookShelf/deleteBooksByBookId",rp, new JsonHttpResponseHandler() {
-//                            @Override
-//                            public void onSuccess(JSONObject response) {
-//                                super.onSuccess(response);
-//                                try {
-//                                    String errorMsg = response.getString("errorMsg");
-//                                    Toast.makeText(MySpaceActivity.this,errorMsg, Toast.LENGTH_SHORT).show();
-//                                    String retcode = response.getString("retcode");
-//                                    if(retcode.equals("0000")){
-//                                        list.remove(position);
-//                                        listView.setAdapter(spaceListAdapter);
-//                                    }
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Throwable error) {
-//                                super.onFailure(error);
-//                                Toast.makeText(BookShelfActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
+                        // 通过程序我们知道删除了，但是怎么刷新ListView呢？
+                        // 只需要重新设置一下adapter
+                        asyncHttpClient = new AsyncHttpClient();
+                        RequestParams rp = new RequestParams();
+                        rp.put("SpaceId", String.valueOf(SpaceId));
+                        asyncHttpClient.post(BASEURL + "space/deleteSpacesBySpaceId",rp, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(JSONObject response) {
+                                super.onSuccess(response);
+                                try {
+                                    String errorMsg = response.getString("errorMsg");
+                                    Toast.makeText(MySpaceActivity.this,errorMsg, Toast.LENGTH_SHORT).show();
+                                    String retcode = response.getString("retcode");
+                                    if(retcode.equals("0000")){
+                                        list.remove(position);
+                                        listView.setAdapter(spaceListAdapter);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Throwable error) {
+                                super.onFailure(error);
+                                Toast.makeText(MySpaceActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

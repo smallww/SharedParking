@@ -45,14 +45,38 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MySpaceActivity"></activity>
-        <activity android:name=".activity.PlateNumActivity" />
-        <activity android:name=".activity.ChargeMoneyActivity" />
-        <activity android:name=".activity.WalletActivity" />
-        <activity android:name=".activity.IssueSpaceActivity" />
-        <activity android:name=".activity.SharedActivity" />
-        <activity android:name=".activity.AddParkingActivity" />
-        <activity android:name=".activity.SearchParkActivity" />
+        <activity android:name=".activity.AboutUsActivity"></activity>
+        <activity android:name=".activity.SettingOtherActivity" />
+        <activity
+            android:name=".activity.MyCarActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.CashOutActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.MySpaceActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.PlateNumActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.ChargeMoneyActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.WalletActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.IssueSpaceActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.SharedActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.AddParkingActivity"
+            android:label="" />
+        <activity
+            android:name=".activity.SearchParkActivity"
+            android:label="" />
         <activity
             android:name=".activity.Main_homeActivity"
             android:label=""

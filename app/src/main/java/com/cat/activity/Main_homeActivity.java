@@ -360,25 +360,25 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        //通过MenuItem得到SearchView
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchAutoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
-        //搜索图标是否显示在搜索框内
-        searchView.setIconifiedByDefault(false);
-        //设置搜索框展开时是否显示提交按钮，可不显示
-        searchView.setSubmitButtonEnabled(false);
-        //让键盘的回车键设置成搜索
-        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-        //搜索框是否展开，false表示展开
-        searchView.setIconified(true);
-
-        searchView.setQueryHint("请输入目的地/地标");
-
-        //设置输入框提示文字样式
-        mSearchAutoComplete.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
-        mSearchAutoComplete.setTextColor(getResources().getColor(android.R.color.background_light));
-        mSearchAutoComplete.setTextSize(14);
+//        MenuItem searchItem = menu.findItem(R.id.menu_search);
+//        //通过MenuItem得到SearchView
+//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        mSearchAutoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+//        //搜索图标是否显示在搜索框内
+//        searchView.setIconifiedByDefault(false);
+//        //设置搜索框展开时是否显示提交按钮，可不显示
+//        searchView.setSubmitButtonEnabled(false);
+//        //让键盘的回车键设置成搜索
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+//        //搜索框是否展开，false表示展开
+//        searchView.setIconified(true);
+//
+//        searchView.setQueryHint("请输入目的地/地标");
+//
+//        //设置输入框提示文字样式
+//        mSearchAutoComplete.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
+//        mSearchAutoComplete.setTextColor(getResources().getColor(android.R.color.background_light));
+//        mSearchAutoComplete.setTextSize(14);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -389,7 +389,7 @@ public class Main_homeActivity extends AppCompatActivity  implements View.OnClic
 
         if (id == R.id.action_settings) {
             Intent intent = new Intent(Main_homeActivity.this,RecentActiveActivity.class);
-            intent.putExtra("title","近期活动");
+            intent.putExtra("title","车位列表");
             startActivity(intent);
             return true;
         }

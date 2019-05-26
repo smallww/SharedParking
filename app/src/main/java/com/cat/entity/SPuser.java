@@ -9,6 +9,7 @@ public class SPuser implements java.io.Serializable {
     private String phone;
     private String password;
     private String gender;
+    private String carNum;
     private Integer balance;
     private String headPic;
     private String devicetoken;
@@ -22,13 +23,14 @@ public class SPuser implements java.io.Serializable {
 
     /** full constructor */
     public SPuser( SPspace sPspace,String userName, String phone,
-                   String password, String gender, Integer balance, String headPic,
+                   String password, String gender,String carNum, Integer balance, String headPic,
                    String devicetoken) {
         this.sPspace=sPspace;
         this.userName = userName;
         this.phone = phone;
         this.password = password;
         this.gender = gender;
+        this.carNum=carNum;
         this.balance = balance;
         this.headPic = headPic;
         this.devicetoken = devicetoken;
@@ -81,6 +83,14 @@ public class SPuser implements java.io.Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getCarNum() {
+        return carNum;
+    }
+
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
     }
 
     public Integer getBalance() {

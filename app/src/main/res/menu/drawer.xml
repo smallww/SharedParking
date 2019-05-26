@@ -8,36 +8,31 @@
             android:checked="false"
             android:icon="@drawable/ic_star_black"
             android:title="@string/inbox_string" />
-
         <item
-            android:id="@+id/starred"
+            android:id="@+id/nav_wallet"
             android:checked="false"
-            android:icon="@drawable/ic_inbox_black"
-            android:title="@string/starred_string" />
-
+            android:icon="@drawable/wallet"
+            android:title=" 我的钱包" />
         <item
-            android:id="@+id/sent_mail"
+            android:id="@+id/nav_car"
             android:checked="false"
-            android:icon="@drawable/ic_send_black"
-            android:title="@string/sent_mail_string" />
-
+            android:icon="@drawable/car"
+            android:title="我的车辆" />
         <item
-            android:id="@+id/drafts"
+            android:id="@+id/nav_space"
             android:checked="false"
-            android:icon="@drawable/ic_book"
-            android:title="@string/draft_string" />
-
-
+            android:icon="@drawable/my_space"
+            android:title="我的车位" />
         <item
-            android:id="@+id/allmail"
+            android:id="@+id/nav_fixer"
             android:checked="false"
-            android:icon="@drawable/ic_book"
-            android:title="@string/all_mail_string" />
+            android:icon="@drawable/space_fixer"
+            android:title="我的预定" />
         <item
-            android:id="@+id/trash"
+            android:id="@+id/nav_share"
             android:checked="false"
-            android:icon="@drawable/ic_delete_black"
-            android:title="@string/trash_string" />
+            android:icon="@drawable/space_share"
+            android:title="我的发布" />
     </group>
 
     <group android:id="@+id/group2"
@@ -52,16 +47,7 @@
                 android:checked="false"
                 android:icon="@drawable/ic_child_care_"
                 android:title="客服 " />
-        <item
-            android:id="@+id/nav_wallet"
-            android:checked="false"
-            android:icon="@drawable/wallet"
-            android:title=" 我的钱包" />
-        <item
-            android:id="@+id/nav_car"
-            android:checked="false"
-            android:icon="@drawable/car"
-            android:title="我的车辆" />
+
     </group>
 
 

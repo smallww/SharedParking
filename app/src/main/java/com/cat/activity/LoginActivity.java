@@ -41,6 +41,7 @@ import com.ta.util.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -317,6 +318,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                     editor.putString("balance", user.getBalance() + "");
                                     editor.putString("password", user.getPassword() + "");
                                     editor.putString("headpic", user.getHeadPic() + "");
+                                    editor.putString("carNum", user.getCarNum() + "");
                                     editor.apply();
                                     dialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "登陆成功！", Toast.LENGTH_SHORT).show();

@@ -46,7 +46,7 @@
                 android:id="@+id/money"
                 android:drawableStart="@drawable/yuan"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="135dp"
+                android:layout_marginStart="125dp"
                 android:text=" 0.00"
                 android:textSize="40sp"
                 android:textColor="@color/color_ffffff"

@@ -291,6 +291,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                                     editor.putString("balance", user.getBalance() + "");
                                     editor.putString("password", user.getPassword() + "");
                                     editor.putString("headpic", user.getHeadPic() + "");
+                                    editor.putString("carnumer", user.getCarNum() + "");
                                     editor.apply();
                                     Toast.makeText(getApplicationContext(), "注册成功！", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);

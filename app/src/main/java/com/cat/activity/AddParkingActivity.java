@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -84,6 +85,7 @@ public class AddParkingActivity extends AppCompatActivity {
 
     private android.app.AlertDialog dialog;
     private boolean checked=false;
+    private String s1;
 
 
     @Override
@@ -122,6 +124,9 @@ public class AddParkingActivity extends AppCompatActivity {
         text_latitude.setText(latitude);
         text_Longitude.setText(longitude);
 
+
+        s1 = intent.getStringExtra("judge");
+        Log.i("666",s1+"    56566565665");
     }
 
     private void initView() {
@@ -158,7 +163,9 @@ public class AddParkingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AddParkingActivity.this,HomeActivity.class);
+                intent.putExtra("judge",s1);
                 startActivity(intent);
+
             }
         });
         btn_submit.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +206,6 @@ public class AddParkingActivity extends AppCompatActivity {
         final String releaseTime = formatter.format(time);
         sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("userid", null);
-
         new AlertDialog.Builder(this).setTitle("友情提示").setMessage("确定上报车位吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -208,7 +214,7 @@ public class AddParkingActivity extends AppCompatActivity {
                         rp.put("userid",userId);
                         rp.put("spaceNum",SpaceId.getText().toString().trim());
                         rp.put("spacePic" , String.valueOf(cropImageUri));
-                        rp.put("spaceRemark", String.valueOf(comment.getText()));
+                        rp.put("spaceRemark", String.valueOf(comment.getText()).trim());
                         rp.put("ownerName", String.valueOf(publisher.getText()));
                         rp.put("contactNum", String.valueOf(phoneNum.getText()));
                         rp.put("releaseTime",releaseTime);
@@ -222,9 +228,18 @@ public class AddParkingActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(JSONObject response) {
                                 Toast.makeText(AddParkingActivity.this, "车位上架成功！啦啦啦", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(AddParkingActivity.this,MySpaceActivity.class);
-                                startActivity(intent);
-                                finish();
+
+                                if("0".equals(s1)) {
+                                    Log.i("666","sfygsdjfsjdfhjk");
+                                    Intent intent = new Intent(AddParkingActivity.this, MySpaceActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                else if("1".equals(s1)){
+                                    Intent intent = new Intent(AddParkingActivity.this, IssueSpaceActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
 
                             }
                             @Override
@@ -290,5 +305,20 @@ public class AddParkingActivity extends AppCompatActivity {
             }
         }
     }
-
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("from",s1);
+        Log.i("666",s1+"111111111");
+    }
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState) {
+//        // 总是调用超类，以便它可以恢复视图层次超级
+//        super.onRestoreInstanceState(savedInstanceState);
+//
+//        // 从已保存的实例中恢复状态成员
+//        s1=savedInstanceState.getString("from");
+//        Log.i("666",s1+"222222222222222222");
+//
+//    }
 }

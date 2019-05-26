@@ -1,49 +1,46 @@
 package com.cat.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cat.R;
-import com.cat.entity.SpaceJson;
 import com.ta.TASyncHttpClient;
 import com.ta.annotation.TAInject;
 import com.ta.util.http.AsyncHttpClient;
-import com.ta.util.http.JsonHttpResponseHandler;
-import com.ta.util.http.RequestParams;
-
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 
 import dmax.dialog.SpotsDialog;
 
-public class WalletActivity extends AppCompatActivity implements View.OnClickListener {
+public class MyCarActivity extends AppCompatActivity {
+
+
 
     private Toolbar toolbar;
-    private ImageView imageView;
-    private TextView money;
-    private DecimalFormat myFormatter;
-    Double balance;
-    private TextView charge_money;
-    private TextView cash_money;
+    private TextView car_text;
+    private ImageView carIV;
+    private LinearLayout car_linear;
 
     private android.app.AlertDialog dialog;
-    private String userID;
+
+    private String userId;
+    //网络请求相关
     @TAInject
     private TASyncHttpClient syncHttpClient;
     @TAInject
@@ -52,7 +49,6 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
 
     //共享变量
     private SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,68 +71,70 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
             window.setStatusBarColor(color);
 
         }
-        setContentView(R.layout.activity_wallet);
+        setContentView(R.layout.activity_my_car);
         initView();
-
-    }
-
-    private void loadData() {
-        sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        myFormatter = new DecimalFormat("0.00");
-        //balance = 0.00; //todo 服务器
-        balance= Double.valueOf(sharedPreferences.getString("balance",""));
-        money.setText(myFormatter.format(balance));
     }
 
     private void initView() {
 
-        dialog = new SpotsDialog(WalletActivity.this);
+
+        dialog = new SpotsDialog(MyCarActivity.this);
         //初始化控件
-        toolbar = (Toolbar) findViewById(R.id.toolbar_wallet);
-        money = (TextView) findViewById(R.id.money);
-        imageView = (ImageView) findViewById(R.id.iv_show_ye);
-        charge_money= (TextView) findViewById(R.id.charge_money);
-        cash_money = (TextView) findViewById(R.id.cash_money);
-
-        money.setOnClickListener(this);
-        imageView.setOnClickListener(this);
-        cash_money.setOnClickListener(this);
-        charge_money.setOnClickListener(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_space);
+        car_text= (TextView) findViewById(R.id.car_text);
+        carIV= (ImageView) findViewById(R.id.carIV);
+        car_linear= (LinearLayout) findViewById(R.id.car_linear);
 
 
-        toolbar.setTitle("我的钱包");
+        toolbar.setTitle("我的车辆");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.return_btn);//设置返回icon
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v -> {
+//            Intent intent = new Intent(MySpaceActivity.this,MainActivity.class);
+//            startActivity(intent);
+            finish();});
+
+        car_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(MyCarActivity.this,PlateNumActivity.class);
+                intent.putExtra("title","修改车牌");
+                startActivity(intent);
+            }
+        });
     }
     @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.iv_show_ye:
-                if (!money.getText().equals("****")) {
-                    imageView.setImageResource(R.drawable.pass_visuable);
-                    money.setText("****");
-                }
-                else {
-                    money.setText(myFormatter.format(balance));
-                    imageView.setImageResource(R.drawable.pass_gone);
-                }
-
-                break;
-            case R.id.charge_money:
-                Intent intent = new Intent(WalletActivity.this,ChargeMoneyActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.cash_money:
-                Intent intent1 = new Intent(WalletActivity.this,CashOutActivity.class);
-                startActivity(intent1);
-                break;
-        }
-    }
     protected void onResume() {
         super.onResume();
         loadData();
+    }
+
+    private void loadData() {
+        sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        String s=sharedPreferences.getString("carnumer","");
+        if("null".equals(s)){
+            new AlertDialog.Builder(this).setTitle("友情提示").setMessage("你还没有上报车牌，是否去上报车牌？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent= new Intent(MyCarActivity.this,PlateNumActivity.class);
+                            intent.putExtra("title","上报车牌");
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+        }
+        else{
+            carIV.setVisibility(View.VISIBLE);
+            car_text.setText(s);
+        }
+
+
     }
 }

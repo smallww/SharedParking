@@ -16,9 +16,18 @@
         app:theme="@style/Theme.Toolbar.Base"
         app:popupTheme="@style/Theme.Toolbar.Base"
         />
-    <TextView
+    <com.cat.layout.VerticalSwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="没有可发布的车位"/>
+        android:background="#FFFFFF">
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/spaceList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/player_grey"
+            android:dividerHeight="4dp"
+            android:padding="4dp"
+            tools:listitem="@layout/space_list"/>
+    </com.cat.layout.VerticalSwipeRefreshLayout>
 </LinearLayout>

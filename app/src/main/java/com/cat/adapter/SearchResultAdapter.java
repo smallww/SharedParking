@@ -1,6 +1,7 @@
 package com.cat.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -107,12 +108,13 @@ public class SearchResultAdapter extends BaseAdapter {
 
 
             item.setOnClickListener(v -> {
-
                     Intent intent=new Intent(context, AddParkingActivity.class);
                     intent.putExtra("address",textSubTitle.getText());
                     intent.putExtra("latitude",String.valueOf(poiItem.getLatLonPoint().getLatitude()));
                     intent.putExtra("longitude",String.valueOf(poiItem.getLatLonPoint().getLongitude()));
+                    intent.putExtra("judge",((Activity)context).getIntent().getStringExtra("judge"));
                     context.startActivity(intent);
+                   ((Activity)context).finish();
 
             });
         }
