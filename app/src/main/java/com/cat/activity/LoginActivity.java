@@ -306,6 +306,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                 if (retcode.equals("0001")) {
                                     Toast.makeText(LoginActivity.this, errMsg, Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
+                                } else if (retcode.equals("0002")) {
+                                    Toast.makeText(LoginActivity.this, errMsg, Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
                                 } else {
                                     List<SPuser> list = stringToList(obj, SPuser.class);
                                     SPuser user = list.get(0);

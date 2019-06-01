@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -43,6 +45,7 @@ public class SharedActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView startTime;
     private TextView endTime;
+    private Integer select_id;
     //共享变量
     private SharedPreferences sharedPreferences;
     private android.app.AlertDialog dialog;
@@ -105,6 +108,8 @@ public class SharedActivity extends AppCompatActivity {
             people_text.setText(spaceJson.getOwnerName());
             phone_text.setText(spaceJson.getContactNum());
             code_text.setText(spaceJson.getSpaceNum().toString());
+            select_id=spaceJson.getSpaceId();
+
         }
 
         setSupportActionBar(toolbar);
@@ -123,7 +128,20 @@ public class SharedActivity extends AppCompatActivity {
                         @Override
                         public void onTimeSet(TimePicker view,
                                               int hourOfDay, int minute) {
-                            startTime.setText( hourOfDay + ":" + minute);
+                            String hour="";
+                            String minu="";
+                            if(hourOfDay<10){
+                                hour="0"+hourOfDay;
+                            }else{
+                                hour= String.valueOf(hourOfDay);
+                            }
+                            if(minute<10){
+                                minu="0"+minute;
+                            }else{
+                                minu= String.valueOf(minute);
+                            }
+
+                            startTime.setText( hour + ":" + minu);
                         }
                     }
                     // 设置初始时间
@@ -142,7 +160,19 @@ public class SharedActivity extends AppCompatActivity {
                         @Override
                         public void onTimeSet(TimePicker view,
                                               int hourOfDay, int minute) {
-                            endTime.setText( hourOfDay + ":" + minute);
+                            String hour="";
+                            String minu="";
+                            if(hourOfDay<10){
+                                hour="0"+hourOfDay;
+                            }else{
+                                hour= String.valueOf(hourOfDay);
+                            }
+                            if(minute<10){
+                                minu="0"+minute;
+                            }else{
+                                minu= String.valueOf(minute);
+                            }
+                            endTime.setText( hour + ":" + minu);
                         }
                     }
                     // 设置初始时间
@@ -155,66 +185,68 @@ public class SharedActivity extends AppCompatActivity {
             startActivity(intent2);
             finish();
         });
-//        submit.setOnClickListener(v ->{
-//            String start = startTime.getText().toString();
-//            String end = endTime.getText().toString();
-//
-//            if ("请选择您的车位".equals(select_text.getHint().toString().trim())) {
-//                Toast.makeText(this, "请选择您的车位", Toast.LENGTH_SHORT).show();
-//            }
-//           else if (start.isEmpty() || end.isEmpty()) {
-//                Toast.makeText(this, "请选择时间段", Toast.LENGTH_SHORT).show();
-//            }
-//            else {
-//                RequestParams rp = new RequestParams();
-//                sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-//
-//                asyncHttpClient = new AsyncHttpClient();
-//                rp.put("userid", sharedPreferences.getString("userid", null));
-//                rp.put("start",start);
-//                rp.put("end",end);
-//                rp.put("start",start);
-//
-//                asyncHttpClient.post(BASEURL + "task/addTask",rp, new JsonHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(JSONObject response) {
-//                        super.onSuccess(response);
-//                        try {
-//                            String retcode = response.getString("retcode");
-//                            if (retcode != null && !retcode.equals("0000")) {
-//                                String errorMsg = response.getString("errorMsg");
-//                                Toast.makeText(SharedActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
-//                                dialog.dismiss();
-//
-//
-//                            } else {
-//                                spaceJsons = stringToList(response.getJSONArray("obj").toString(),SpaceJson.class);
-//                                for(SpaceJson sj:spaceJsons){
-//                                    SpaceItem item = new SpaceItem();
-//                                    item.setSpaceName(sj.getSpaceName());
-//                                    item.setSpaceNum(sj.getSpaceNum());
-//                                    item.setOwnerName(sj.getOwnerName());
-//                                    item.setInnerTime(sj.getReleaseTime());
-//                                    item.setContactNum(sj.getContactNum());
-//                                    list.add(item);
-//                                    listView.setAdapter(spaceListAdapter);
-//                                }
-//                                //Log.i("111",spaceListAdapter.getCount()+"!!!!!!!!!!");
-//                            }
-//                        } catch (Exception e) {
-//                            Log.e("111",e.toString());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable error) {
-//                        super.onFailure(error);
-//                        dialog.dismiss();
-//                        Toast.makeText(MySpaceActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
+        submit.setOnClickListener(v ->{
+            new AlertDialog.Builder(this).setTitle("友情提示").setMessage("是否发布车位？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String start = startTime.getText().toString();
+                            String end = endTime.getText().toString();
+
+                            if ("请选择您的车位".equals(select_text.getHint().toString().trim())) {
+                                Toast.makeText(SharedActivity.this, "请选择您的车位", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (start.isEmpty() || end.isEmpty()) {
+                                Toast.makeText(SharedActivity.this, "请选择时间段", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                RequestParams rp = new RequestParams();
+
+
+                                asyncHttpClient = new AsyncHttpClient();
+                                rp.put("space_id", String.valueOf(select_id));
+                                rp.put("start",start);
+                                rp.put("end",end);
+
+
+                                asyncHttpClient.post(BASEURL + "task/addTask",rp, new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(JSONObject response) {
+                                        super.onSuccess(response);
+                                        try {
+                                            String retcode = response.getString("retcode");
+                                            if (retcode != null && !retcode.equals("0000")) {
+                                                String errorMsg = response.getString("errorMsg");
+                                                Toast.makeText(SharedActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                                                dialog.dismiss();
+
+                                            } else {
+                                                Toast.makeText(SharedActivity.this, "发布车位成功", Toast.LENGTH_SHORT).show();
+                                                //Log.i("111",spaceListAdapter.getCount()+"!!!!!!!!!!");
+                                            }
+                                        } catch (Exception e) {
+                                            Log.e("111",e.toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable error) {
+                                        super.onFailure(error);
+                                        dialog.dismiss();
+                                        Toast.makeText(SharedActivity.this, "网络出错，请检查网络！", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+
+        });
 
     }
 

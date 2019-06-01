@@ -45,7 +45,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.AboutUsActivity"></activity>
+        <activity android:name=".activity.TaskShareActivity"></activity>
+        <activity android:name=".activity.AboutUsActivity" />
         <activity android:name=".activity.SettingOtherActivity" />
         <activity
             android:name=".activity.MyCarActivity"

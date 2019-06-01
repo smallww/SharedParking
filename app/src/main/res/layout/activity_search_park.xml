@@ -70,10 +70,11 @@
             android:layout_gravity="center"
             android:background="@drawable/ic_delete" />
     </LinearLayout>
+
     <ListView
         android:id="@+id/park_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_history"
-        tools:listitem="@layout/search_history_item"></ListView>
+        tools:listitem="@layout/search_history_item" />
 </RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/color_ffffff"
+    android:orientation="vertical"
+    tools:context=".activity.IssueSpaceActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_task"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#008577"
+        app:theme="@style/Theme.Toolbar.Base"
+        app:popupTheme="@style/Theme.Toolbar.Base"
+        />
+    <com.cat.layout.VerticalSwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/taskList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/player_grey"
+            android:dividerHeight="4dp"
+            android:padding="4dp"
+            tools:listitem="@layout/share_list"/>
+    </com.cat.layout.VerticalSwipeRefreshLayout>
+</LinearLayout>

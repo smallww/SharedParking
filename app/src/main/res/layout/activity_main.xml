@@ -25,7 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:flipInterval="2000" >
+            android:inAnimation="@anim/right_in"
+            android:outAnimation="@anim/left_out"
+            android:flipInterval="3000" >
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="250dip"

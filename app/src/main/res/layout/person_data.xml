@@ -39,10 +39,8 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/person_image"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:src="@drawable/me"
                         app:border_color="#FF000000" />
@@ -51,11 +49,10 @@
                         android:id="@+id/uptextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/person_image"
-                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="12dp"
                         android:layout_gravity="center"
                         android:text="雨晨是傻子"
-                        android:textColor="#000000"
+                        android:textColor="#ffffff"
                         android:textSize="15dp" />
                 </LinearLayout>
             </RelativeLayout>

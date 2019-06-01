@@ -226,7 +226,7 @@ public class PlateNumActivity extends AppCompatActivity implements View.OnClickL
                                                 e.printStackTrace();
                                             }
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("carnumer",obj);
+                                            editor.putString("carNum",obj);
                                             editor.apply();
                                             finish();
 

@@ -112,7 +112,7 @@ public class MyCarActivity extends AppCompatActivity {
 
     private void loadData() {
         sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String s=sharedPreferences.getString("carnumer","");
+        String s=sharedPreferences.getString("carNum","");
         if("null".equals(s)){
             new AlertDialog.Builder(this).setTitle("友情提示").setMessage("你还没有上报车牌，是否去上报车牌？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {

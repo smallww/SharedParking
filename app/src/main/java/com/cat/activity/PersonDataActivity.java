@@ -222,7 +222,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
 
         String g = preferences.getString("gender","");
         if (g.equals("null"))
-            gtextview.setText("男");
+            gtextview.setText("保密");
         else {
             gtextview.setText(g);
         }
@@ -247,7 +247,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
 
         };
 
-        Picasso.with(PersonDataActivity.this).load(headpic).placeholder(R.drawable.default_image).into(target);
+        Picasso.with(PersonDataActivity.this).load(headpic).placeholder(R.drawable.me).into(target);
 
         String phone = preferences.getString("phone","");
         String Num=phone.substring(0,3)+"****"+phone.substring(7,phone.length());
@@ -256,7 +256,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         String balance = preferences.getString("balance","");
         storetext.setText(balance);
 
-        String carNum=preferences.getString("carnumer","");
+        String carNum=preferences.getString("carNum","");
         cartext.setText(carNum);
     }
 
@@ -342,6 +342,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
                                             Toast.makeText(PersonDataActivity.this, "设置成功！", Toast.LENGTH_SHORT).show();
                                             setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
                                             preferences.edit().putString("headpic",obj).apply();
+                                            Picasso.with(PersonDataActivity.this).load(preferences.getString("headpic","")).placeholder(R.drawable.me).into(personal_icon);
                                             dialog.dismiss();
                                         }
                                     } catch (JSONException e) {
@@ -378,6 +379,7 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
     protected void setImageToView(Intent data) {
         Bundle extras = data.getExtras();
         if (extras != null) {
+           // Bitmap photo = extras.getParcelable("data");
             Bitmap photo = extras.getParcelable("data");
             personal_icon.setImageBitmap(photo);
         }
@@ -388,14 +390,19 @@ public class PersonDataActivity extends AppCompatActivity implements View.OnClic
         ArrayList<WheelData> list = new ArrayList<WheelData>();
         WheelData man;
         WheelData woman;
+        WheelData secrecy;
         man = new WheelData();
         woman = new WheelData();
+        secrecy=new WheelData();
         man.setId(R.drawable.man);
         woman.setId(R.drawable.woman);
+        secrecy.setId(R.drawable.secrecy);
         man.setName("男");
         woman.setName("女");
+        secrecy.setName("保密");
         list.add(man);
         list.add(woman);
+        list.add(secrecy);
         return list;
     }
 
